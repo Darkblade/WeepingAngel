@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Recording overlays · Weeping Angel</title><link rel="icon" href="/assets/angel.ico"><link rel="stylesheet" href="/assets/branding.css">
+<link rel="stylesheet" href="/assets/themes.css"><script src="/assets/theme.js"></script><style>body{font:16px system-ui;background:var(--bg);color:var(--text);max-width:650px;margin:auto;padding:20px}label{display:block;margin:18px 0}input,select,button{font:inherit;background:var(--inputs-background);color:var(--inputs-foreground);border:1px solid var(--inputs-border);border-radius:8px;padding:10px}input[type=text]{width:90%}a{color:var(--accent)}p{color:var(--muted)}</style>
+<a href="/#settings">← Settings</a><h1>Recording overlays</h1><p>Applied to new saved live recordings. Settings are shared with the Windows app. Font size is relative to a 720p frame. Original USB recordings keep their original video.</p>
+<label><input type="checkbox" id="enabled"> Enable overlays</label><label><input type="checkbox" id="timestamp"> Timestamp</label><label><input type="checkbox" id="camera"> Camera name</label><label>Text watermark <input type="text" maxlength="120" id="watermark"></label>
+<label>Placement <select id="placement"><option>Top left</option><option>Top right</option><option>Bottom left</option><option>Bottom right</option></select></label>
+<label>Format <select id="format"><option>Date and time</option><option>Date and time with seconds</option><option>Date only</option></select></label>
+<label>Font <select id="font"><option>Segoe UI</option><option>Arial</option><option>Consolas</option><option>Tahoma</option></select></label>
+<label>Size <input type="number" min="12" max="72" id="size"></label><label><input type="checkbox" id="utc"> Use UTC (otherwise Windows local time)</label><button id="save">Save settings</button><p id="status" role="status"></p>
+<script>
+const fields=['enabled','timestamp','camera','watermark','placement','format','font','size','utc'];
+async function load(){const r=await fetch('/api/recording-overlay');if(!r.ok)throw Error('Pair with the Windows app first.');const s=await r.json();for(const k of fields){const e=document.getElementById(k);e[e.type==='checkbox'?'checked':'value']=s[k];}}
+document.getElementById('save').onclick=async()=>{try{const s={};for(const k of fields){const e=document.getElementById(k);s[k]=e.type==='checkbox'?e.checked:e.type==='number'?Number(e.value):e.value;}const r=await fetch('/api/recording-overlay',{method:'POST',headers:{'Content-Type':'application/json','X-DontBlink':'1'},body:JSON.stringify(s)});if(!r.ok)throw Error('Could not save settings.');document.getElementById('status').textContent='Saved. Applies when you next start recording.';}catch(e){document.getElementById('status').textContent=e.message;}};
+load().catch(e=>document.getElementById('status').textContent=e.message);
+</script></html>

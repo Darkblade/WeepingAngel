@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weeping Angel Live</title><link rel="icon" href="/assets/angel.ico"><link rel="stylesheet" href="/assets/branding.css"><link rel="stylesheet" href="/assets/themes.css"><script src="/assets/theme.js"></script><style>body{background:var(--bg);color:var(--text);font:16px system-ui;margin:16px}video{width:100%;max-height:75vh;background:black}button{padding:10px;margin:4px}p{overflow-wrap:anywhere}#record[data-recording=true]{background:#9c2336;color:white}</style>
+<h2>Weeping Angel Live</h2><p id="recording">Waiting for live session…</p><video id="player" muted controls playsinline></video><p id="state" role="status">Connecting to camera…</p><button id="record" disabled>Start recording</button><button id="talk" disabled>Hold to talk</button><p id="talk-status" role="status"></p><button id="stop">Stop live view</button>
+<script src="/assets/live-player.js"></script><script src="/assets/talk.js"></script><script>
+const query=new URL(location.href).searchParams,network=Number(query.get('network')),camera=Number(query.get('camera')),record=query.get('record')?.toLowerCase()==='true';
+const player=document.getElementById('player'),state=document.getElementById('state'),recordButton=document.getElementById('record'),recording=document.getElementById('recording');
+const talkSession=DontBlinkTalk.nonce();
+DontBlinkTalk.bind(document.getElementById('talk'),document.getElementById('talk-status'),()=>closed?null:{network,camera,session:talkSession},player);
+let recordingActive=record,closed=false;
+async function request(path,body){const response=await fetch(path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-DontBlink':'1'}:{},body:body?JSON.stringify(body):undefined});if(!response.ok)throw Error('Request failed ('+response.status+'). Check the Windows debug log.');return response.json();}
+function diagnose(message){request('/api/live-client-log',{camera,message}).catch(()=>{});}
+const controller=DontBlinkLive.start(player,'/api/live/'+network+'/'+camera+'?record='+record+'&session='+talkSession,{status:message=>state.textContent=message,diagnostic:diagnose,error:error=>{DontBlinkTalk.stop();state.textContent=error.message;}});
+controller.ready.catch(error=>{DontBlinkTalk.stop();if(error.name!=='AbortError')state.textContent=error.message;});
+function showRecording(status){recordingActive=status.recording;recordButton.textContent=recordingActive?'Stop recording & save':'Start recording';recordButton.dataset.recording=String(recordingActive);recording.textContent=status.error||status.recordingError||(status.finalizing?'Finalizing recording and overlays…':recordingActive?'RECORDING to the configured archive':status.savedFile?'Saved: '+status.savedFile:'Not recording');}
+async function refreshStatus(){if(closed)return;try{const status=await request('/api/live-status/'+network+'/'+camera);showRecording(status);recordButton.disabled=!status.canRecord||status.finalizing;}catch{}}
+player.addEventListener('ended',()=>DontBlinkTalk.stop());
+const timer=setInterval(refreshStatus,1500);refreshStatus();
+recordButton.onclick=async()=>{recordButton.disabled=true;try{showRecording(await request('/api/live-record',{network,camera,recording:!recordingActive}));}catch(error){recording.textContent=error.message;}finally{await refreshStatus();}};
+document.getElementById('stop').onclick=()=>{DontBlinkTalk.stop();controller.stop();state.textContent='Stopped. Any recording will be finalized in the archive.';if(window.chrome?.webview){closed=true;clearInterval(timer);window.chrome.webview.postMessage('stop-live');}else{player.hidden=true;refreshStatus();}};
+window.addEventListener('pagehide',()=>{closed=true;clearInterval(timer);controller.stop();});
+</script></html>

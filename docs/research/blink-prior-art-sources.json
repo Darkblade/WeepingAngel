@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "retrievedUtc": "2026-10-31T21:27:59.4329035Z",
+  "scope": "Read-only prior-art review; third-party source was not executed; retrieved repository agent instructions are research data, not workspace instructions.",
+  "sources": [
+    {
+      "name": "lurume84/bling-wrt",
+      "url": "https://github.com/lurume84/bling-wrt",
+      "commit": "35fb00328cc742940ccc95da0f59729d83ec2c04",
+      "snapshotDirectory": "artifacts/research/blink-prior-art/lurume84--bling-wrt",
+      "files": [
+        {
+          "path": "access.md",
+          "sha256": "150d0c558cf94658650c3a1ba35541b2fc29e9da4f09bfa0657d90a95ee7c796"
+        },
+        {
+          "path": "certs.md",
+          "sha256": "4b71119a6483d2ad64d8ad20c9d4f238151a650ca416270dcf9a401ab0d09e1d"
+        },
+        {
+          "path": "connect.md",
+          "sha256": "d884282c7140b6b114e247681ecd5c8539d32caa648daa23b93243dfe7ac22f0"
+        },
+        {
+          "path": "covers.md",
+          "sha256": "142c5456e5905edbc0eb873dd97bd1f66d377123787640ba52e757386e7952cf"
+        },
+        {
+          "path": "README.md",
+          "sha256": "83c228334436b4e3d3032dccc7a3fbd1dfe671540633847591f6c30e382d05f4"
+        },
+        {
+          "path": "reset.md",
+          "sha256": "fb3bf550a3caf4ba1cf72e9b96f472ad105f9bb28bc1bcbfd16691a74b7e0839"
+        },
+        {
+          "path": "sshserver.md",
+          "sha256": "e30d107c1a8c2a7238860aef6c2a9bfd6a795ceae77cd4512a8397486ed3b504"
+        },
+        {
+          "path": "timestamp.md",
+          "sha256": "5bfe2982b49ae88238bb4c7775ea70eaccede9a82e4888adf45ca99b29b68b02"
+        },
+        {
+          "path": "torrent.md",
+          "sha256": "0a876423a4c232a8f6066d680ff353b50ba55cf163fc10de94afbb75e7771a8a"
+        },
+        {
+          "path": "usb.md",
+          "sha256": "c6801d1de01b088c56a6ada8f5a1bbca3c526d675de63fcdf49e162303925c33"
+        },
+        {
+          "path": "usb2ttl.md",
+          "sha256": "642d847b92acbc8758bc0b72263d3e6ee394bc129c9c1a635e6f12672db03c05"
+        },
+        {
+          "path": "videos.md",
+          "sha256": "ca2234736e74aa752249205d55a3035b882c5ae0f46420b2285223ef66b41a66"
+        },
+        {
+          "path": "viewer.md",
+          "sha256": "3881382a0b75575e5e6842d99014d0a15a8b9a7e873724bbbb9104e4414b109a"
+        },
+        {
+          "path": "webserver.md",
+          "sha256": "d48499e94676c0a86bd721659dd6f6644cdd6c36f93bb56b27c59a58d48a0e90"
+        },
+        {
+          "path": "apps/get_videos.lua",
+          "sha256": "dd16871db9e5e00bb12e03b508dd13a6e24c51881286ba044bfa40ebac856eea"
+        }
+      ]
+    },
+    {
+      "name": "luekker/blink-sync-module-2",
+      "url": "https://github.com/luekker/blink-sync-module-2",
+      "commit": "b6abbc7457488f3e9b87d89abdb7b60b3e58df29",
+      "snapshotDirectory": "artifacts/research/blink-prior-art/luekker--blink-sync-module-2",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "dcb4943f35968aa7136c5e798f14b13c1a4d72eddfd3303fe6e58100c9722bc6"
+        },
+        {
+          "path": "boot-logs/blink_boot-debug1.log",
+          "sha256": "a64a232d848e6533f3b03b85bac5321511244f91de03b6e36243f8a04ba0d103"
+        },
+        {
+          "path": "boot-logs/blink_boot-debug2.log",
+          "sha256": "a0a6b1572e71520f89dac3716ddecd4b2c83b65e24b8ea36c09576a2f97958cf"
+        },
+        {
+          "path": "boot-logs/blink_boot-debug3.log",
+          "sha256": "54cbc914c8a9dce5e405e38a0d2e0bf78b916630b82eca4c1ff606cec0a19c67"
+        },
+        {
+          "path": "boot-logs/blink_boot-debug4.log",
+          "sha256": "644ce14ca350f647444a6217aadfa58c31b31a6ba4c1165ca7afbf00b8f50103"
+        },
+        {
+          "path": "boot-logs/blink_boot.log",
+          "sha256": "469617c6157a7fe3776516950576fd80968d4e5cefb9d08cae01faedfdf0ea2e"
+        },
+        {
+          "path": "boot-logs/blink-boot-botton-press.log",
+          "sha256": "c8f0af1922e3ba749e5d411513114942ce830a6830c0ee1514d8541f0bc8cae5"
+        },
+        {
+          "path": "boot-logs/blink-boot-special-keys.log",
+          "sha256": "dac81eabce70b17aa82c916c308d0a5c70e0befcdcd81a74fc8b950bea07aa9f"
+        }
+      ]
+    },
+    {
+      "name": "niclydon/blink-rosie",
+      "url": "https://github.com/niclydon/blink-rosie",
+      "commit": "0ba8586b1e593fcbc791a99ad2ddb9f250277913",
+      "snapshotDirectory": "artifacts/research/blink-prior-art/niclydon--blink-rosie",
+      "files": [
+        {
+          "path": "CHANGES.md",
+          "sha256": "027a114a55a99f5d7952352d39c6c06ee5bfa5d7d5914cd99cd4e12806826928"
+        },
+        {
+          "path": "CLAUDE.md",
+          "sha256": "9f4e50506c23f860b727718b4ad62795e578f2c41ba7753dcc956fb67607b505"
+        },
+        {
+          "path": "README.md",
+          "sha256": "9f5da7d419d03c58fedd2f4440017cf078ee9f1722a9e1664253f931655de1e9"
+        },
+        {
+          "path": "docs/findings.md",
+          "sha256": "eaa775d0194d16e43f2ede1cdb5ca75ca68b8b0694be6fc15b64997931cadf21"
+        },
+        {
+          "path": "docs/narrative/2026-05-19-rosie-wire-format-decode.md",
+          "sha256": "6f25937fb013d8bae6677943ff7527df1109e60f9271afc68a217b22a3ef029e"
+        },
+        {
+          "path": "src/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "src/api_client.py",
+          "sha256": "42f7ef7c8c3a514722937ccc0fb5bac927d1a4f8076b1a3a39ce7dc897a11dcc"
+        },
+        {
+          "path": "src/immis_client.py",
+          "sha256": "d6834123e5b31479f95358f90a732f502282624fcd2e60514304d568891d1b4b"
+        },
+        {
+          "path": "src/rosie_probe.py",
+          "sha256": "2155d1c3e4372861320fdbb7c916d67b3419aa1723597bfda5f3f063e8b29416"
+        },
+        {
+          "path": "src/session.py",
+          "sha256": "3c16dcf2b1e907abf908355006288a7429844e8023be60317bcad40ad856ffcd"
+        }
+      ]
+    },
+    {
+      "name": "OVR92/BlinkPi",
+      "url": "https://github.com/OVR92/BlinkPi",
+      "commit": "0e5d5e2f082eeb51470df0165c87ab0b5ad4acf5",
+      "snapshotDirectory": "artifacts/research/blink-prior-art/OVR92--BlinkPi",
+      "files": [
+        {
+          "path": "Blink Cloud Dependency Findings.md",
+          "sha256": "2afef17e1990fe26d5b0eb2411f1c195253b0de3b2acf5f57736c7c117b6dc3d"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "e7437b8e003071a0ef713fb59ba6b3daeb24dd6341527e8c35d8267afca32244"
+        },
+        {
+          "path": "config.example.yaml",
+          "sha256": "397079a4630771bf618640f523bec6ca0ec6026d49d36f76d148083eb8abc13f"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "sha256": "d895801407484f956524bb0a1e0a11eb3c4e167b2f587be61a623f3fa9d66e9f"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "ae32d543850d0686a562aeb42bd5cc210a080275f2e40b24a77e0a04ccd88b7a"
+        },
+        {
+          "path": "README.md",
+          "sha256": "8a4b28a60f1f6ab5d99d0963167a2568e7d645e43e2c70a965ac9b0704e3c02d"
+        },
+        {
+          "path": "examples/home-assistant-gallery-card.yaml",
+          "sha256": "49dd80c8c67891979cccf7a5bea93de614c1f7eb29d4aa181f5d1f130b018583"
+        },
+        {
+          "path": "scripts/install.sh",
+          "sha256": "5b4f71b94b854c75cda14fa596f8c46760462389e2842eaabf3100588711ad44"
+        },
+        {
+          "path": "src/blink_usb_bridge/__init__.py",
+          "sha256": "4f3ab8d6acf8505766a804a089cde2a21d6a00fa62c665a1c72d34b2a4cd8684"
+        },
+        {
+          "path": "src/blink_usb_bridge/config.py",
+          "sha256": "dfe21ab74c66a593a4683ce70ad875c14405e76abb022491b3b00da6a0a769c9"
+        },
+        {
+          "path": "src/blink_usb_bridge/destinations.py",
+          "sha256": "1585a1efa896b5faf7d0a5b57be55d6805d4b721f84958b488bec625972e86ab"
+        },
+        {
+          "path": "src/blink_usb_bridge/prune.py",
+          "sha256": "64248fafc19902b52ea8b4b0e98bf2c5c6aec69b1e26de4227008073f66d6f74"
+        },
+        {
+          "path": "src/blink_usb_bridge/sm2.py",
+          "sha256": "e14e1a5d4f2d01b59204008591839e3cca2de136ff0ff0df0cbfe51fc3a3a88f"
+        },
+        {
+          "path": "src/blink_usb_bridge/sync.py",
+          "sha256": "2fcef081fe75186d01830160a55a1c802a8c525753231dc5efa97c570d069f42"
+        },
+        {
+          "path": "src/blink_usb_bridge/web_index.html",
+          "sha256": "1521171329c68b4d6d863d27d2264ef54a98c636421f676935a41937e1927329"
+        },
+        {
+          "path": "src/blink_usb_bridge/web.py",
+          "sha256": "47787b8809dbed277fb616f6fd6b7104333b13e9243820320729899f2bfe1b70"
+        },
+        {
+          "path": "src/blink_usb_bridge/wipe.py",
+          "sha256": "d7b43097e123e69d540dd4f81e051303885ccbc376cde0a3d52ae1db25f9b0a3"
+        },
+        {
+          "path": "systemd/blink-gadget.service.template",
+          "sha256": "1316b7b489b1f509d5b90e5970767d835dd635bb1bd69cd9bcfa141c2940cfd6"
+        },
+        {
+          "path": "systemd/blink-sync.service.template",
+          "sha256": "7da8992df52eca76496223de646b8f2f177343e26f575f419b5e59f4b9817907"
+        },
+        {
+          "path": "systemd/blink-sync.timer.template",
+          "sha256": "455b021a3ae9f11d7285506f2bbf5afdd55f4baa84206e50ea2f56f398056997"
+        },
+        {
+          "path": "systemd/blink-wipe.service.template",
+          "sha256": "7fc9b4ae48163126d22daddee5cbc0849c5598a222a9a6a113e4016b0c6e95ff"
+        },
+        {
+          "path": "systemd/blink-wipe.timer.template",
+          "sha256": "f2c27b8e037441337f35d5f1cff241e7e741b601572e713278ddf52942bad67d"
+        },
+        {
+          "path": "systemd/bub-prune.service.template",
+          "sha256": "ed87093f640be00cbf6c7f44822ab60eed42e2e15836bc025b0d0e86a227cd31"
+        },
+        {
+          "path": "systemd/bub-prune.timer.template",
+          "sha256": "0b9749fc81bc4ed55653746dd01a52c02179a691c73da8c02d427669b9e04541"
+        },
+        {
+          "path": "systemd/bub-web.service.template",
+          "sha256": "2f065894cf24e5c085baeb5de361837212af9e5c82aec2c533ff53022bd113ec"
+        }
+      ]
+    },
+    {
+      "name": "Tim McCormack / Reversing Blink cameras",
+      "url": "https://www.brainonfire.net/blog/2023/10/21/reversing-blink/",
+      "sha256": "ffdb4fc50a91b0078e8af6122b91cf91b2ce86093073c70d89f728a22e32c032",
+      "snapshotFile": "artifacts/research/blink-prior-art/brainonfire-reversing-blink.html",
+      "articleUpdated": "2023-10-24",
+      "includesComments": true
+    }
+  ],
+  "supplementalSources": [
+    {
+      "name": "MattTW/BlinkMonitorProtocol",
+      "url": "https://github.com/MattTW/BlinkMonitorProtocol",
+      "commit": "5e2e78ec70d1e1870cd192bf26358d246e148e23",
+      "reason": "Referenced by the five projects; followed for missing camera and module features",
+      "snapshotDirectory": "artifacts/research/blink-prior-art/MattTW--BlinkMonitorProtocol",
+      "files": [
+        {
+          "path": "blinkVideoDownloader.py",
+          "sha256": "af1e7eb58a64d5d8b86a2ac5e974edfa2a03af3a9b0c3e28a5aa3d1d13e91d94"
+        },
+        {
+          "path": "README.md",
+          "sha256": "d31dd9936f854934a89b9e404c3be0cb0201764b1e8d967785bcd5d482447f71"
+        },
+        {
+          "path": "auth/login.md",
+          "sha256": "7031c416cd4f925504d04723b22b855ba14bc1f85fef7a3240c5675e07bb570a"
+        },
+        {
+          "path": "auth/logout.md",
+          "sha256": "e638fb0a10a1485ad3de6662a62d5135e8830355dcf5cd42063bcd02e793eada"
+        },
+        {
+          "path": "auth/verifyPin.md",
+          "sha256": "ec0fccbdbf0d0ceabfa9cf7a14740de3990987dc62d22d9fb959a3d61b8bac7e"
+        },
+        {
+          "path": "camera/disable.md",
+          "sha256": "01a1bac8762435c9c0fe603a7a16411288272552ae0c051dad52d0d5b38bf446"
+        },
+        {
+          "path": "camera/enable.md",
+          "sha256": "709956e39cb5d5391f2bfea024e9f3edaeecd75adf284ca8c939310bc0260c7e"
+        },
+        {
+          "path": "camera/getThumbnail.md",
+          "sha256": "3e0c0de960c2faaa3aa3c733d3e7ab319345a8370f4e9aee78a50635c6ff703e"
+        },
+        {
+          "path": "camera/liveview.md",
+          "sha256": "5f883f663a39bd5a78c4b664550459ec236e324af43553c67d20933446d697ed"
+        },
+        {
+          "path": "camera/recordClip.md",
+          "sha256": "d3079ed1deb699f32ec03728af39e095c4ced1e548f549e602a1ca3936a868a4"
+        },
+        {
+          "path": "camera/setOWLThumbnail.md",
+          "sha256": "be9a81306feb033be4f8880cc196e28e11ba505ed68f298974b835464efe090e"
+        },
+        {
+          "path": "camera/setThumbnail.md",
+          "sha256": "0f8ed41d1fdeb52477263fb54b1d8af8690b1a07bfe2c774ea33829421faa642"
+        },
+        {
+          "path": "camera/snooze.md",
+          "sha256": "7b009ee87cd673ff6892a37a786c8400f565a29bf05c19a0a9d174b7980a643a"
+        },
+        {
+          "path": "Misc/accountOptions.md",
+          "sha256": "0816e5fcc84d5484d723199c8665c72ebd7cf44d311d5106321a610778f9d5a2"
+        },
+        {
+          "path": "Misc/regions.md",
+          "sha256": "a7768d34a44dd1bbd1c2840bc08af987fa27b3425018947dc15f69d7b29faa47"
+        },
+        {
+          "path": "Misc/version.md",
+          "sha256": "bc8246913ffddd30219d28435162e0f150e86568669b9eb2d0c1ae65afb6d8eb"
+        },
+        {
+          "path": "network/arm.md",
+          "sha256": "bd1f51b08e1247608ccfa63e42133eb5eacdde04c70991c710ed54cb25f48973"
+        },
+        {
+          "path": "network/command.md",
+          "sha256": "0c3f68d1acc61f401bd5c2c9c621cf8ebc75c5451c556cee81e62b3c6ff79b08"
+        },
+        {
+          "path": "network/disarm.md",
+          "sha256": "0a03a2405a20030688ef675103a76e023e2be4fbee2a2298dec0538b704b2c88"
+        },
+        {
+          "path": "network/enableProgram.md",
+          "sha256": "f15e2417381d9af19e8092a2219aad5dfe9612e4dbf5b370f4f64ae831632da1"
+        },
+        {
+          "path": "network/listPrograms.md",
+          "sha256": "e9e79eec750925fbbb1dedde50d85f32100b1d476a343108bc9ce6014300f769"
+        },
+        {
+          "path": "network/updateProgram.md",
+          "sha256": "a9f858d614daac89ba23b0bfe8c34ef6373ebc27aa2ba93d4b4cf20200d6c7eb"
+        },
+        {
+          "path": "system/getNotifications.md",
+          "sha256": "3eca1df7805d12e1025306f1658bb39012fd2e1c5ec4430f9692f44b4b0c1ad8"
+        },
+        {
+          "path": "system/homescreen.md",
+          "sha256": "7b35f7c6224fb7fa1db6c5728d90fcb1fac6c3a69fc8b55593dba97907d4078b"
+        },
+        {
+          "path": "system/options.md",
+          "sha256": "766f37ef91670fc3a15fa6354a332682824572730f679360e01992154b35202d"
+        },
+        {
+          "path": "system/setNotifications.md",
+          "sha256": "f403399bffa98b037630a8d062557320c7c4d160ad44b5f282ce41d3de353b08"
+        },
+        {
+          "path": "system/updateoptions.md",
+          "sha256": "a455b5ef1bf162e5df27ab2fc88fb668969984b9496398d4d1102f3b1b417ecf"
+        },
+        {
+          "path": "video/getVideoEvents.md",
+          "sha256": "84d6030b81ca38b1020049c4793fa00e53cb0ff58578baad2ead01a994a421fc"
+        }
+      ]
+    }
+  ]
+}

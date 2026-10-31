@@ -1,0 +1,4549 @@
+{
+  "specification_name": "Consolidated Application Themes and Accessibility Requirements",
+  "specification_version": "1.0.0",
+  "language": "en",
+  "format": "implementation_specification",
+  "purpose": "Self-contained instructions and color tokens for another coding AI to implement in an existing application.",
+  "scope": {
+    "required_theme_count": 10,
+    "theme_order": [
+      "gold",
+      "autumn",
+      "steel",
+      "security",
+      "forest",
+      "ocean",
+      "galaxy",
+      "contrast",
+      "contrast_light",
+      "comfort"
+    ],
+    "all_listed_themes_mandatory": true,
+    "all_listed_accessibility_settings_mandatory": true,
+    "note": "Contrast Light and Comfort are mandatory, following the final user instruction. No theme in this file is optional."
+  },
+  "implementation_contract": {
+    "platform": "Framework-neutral: map to CSS variables, native resources or shared theme objects as appropriate.",
+    "final_display_names": [
+      "Gold",
+      "Autumn",
+      "Steel",
+      "Security",
+      "Forest",
+      "Ocean",
+      "Galaxy",
+      "Contrast",
+      "Contrast Light",
+      "Comfort"
+    ],
+    "historical_alias_policy": "Use former names only for migration; display the final names in the theme selector.",
+    "source_priority": [
+      "Explicit accessibility and operating-system user preferences.",
+      "Resolved implementation tokens in themes.",
+      "Shared rules and requirements.",
+      "Historical source CSS for provenance, never as an override of resolved readable colors."
+    ],
+    "token_resolution": "Every theme includes concrete colors. No external attachments or references are required to resolve tokens. shared_rules apply to all themes.",
+    "state_resolution": "Use the selected component state object. Keyboard focus is a separate additive outline; it must coexist with hover, pressed or selected styling. Disabled controls cannot be activated.",
+    "button_policy": "Standard, primary and secondary buttons deliberately share the dark outlined treatment in dark appearance themes. Primary priority may be conveyed by placement, icon or weight; do not replace every standard button with a bright filled button.",
+    "accessibility_priority": "A theme alone does not provide complete accessibility. Implement all shared accessibility settings and verify the actual application.",
+    "persistence": "Switch immediately without losing application state. Persist theme and accessibility settings separately. Legacy System selections migrate to Steel.",
+    "migration": {
+      "darkgold": "gold",
+      "dark-gold": "gold",
+      "blackgold": "gold",
+      "black-gold": "gold",
+      "bluesteel": "steel",
+      "blue-steel": "steel",
+      "highsecurity": "security",
+      "high-security": "security"
+    },
+    "external_dependencies_required": false
+  },
+  "shared_rules": {
+    "visual_language": [
+      "Professional consistent application layout and control shapes.",
+      "Dark backgrounds, colored text and visible colored borders define the six original appearance themes.",
+      "Stronger background colors appear on hover or active states; keep semantic action distinctions.",
+      "High-contrast and Comfort themes intentionally override decorative treatments."
+    ],
+    "component_coverage": [
+      "navigation",
+      "buttons",
+      "inputs",
+      "dropdowns",
+      "checkboxes",
+      "radio_buttons",
+      "toggles",
+      "tables",
+      "pagination",
+      "dialogs",
+      "tooltips",
+      "scrollbars",
+      "charts",
+      "empty_states",
+      "notifications"
+    ],
+    "button_requirements": [
+      "Use explicit background, foreground and border colors for every supplied state.",
+      "Use the foreground token for icons as well as text.",
+      "Keep visible borders and additive focus outlines; never rely only on shadows.",
+      "Do not convey destructive action only through a red color.",
+      "Disabled controls retain readable labels and an explicit disabled state."
+    ],
+    "focus_requirements": [
+      "Use a visible 3 px outline with a 2 px contrasting gap or native equivalent.",
+      "Verify outline contrast against actual adjacent backgrounds and adjust locally if needed.",
+      "Prevent focus outlines from being clipped or obscured."
+    ],
+    "table_requirements": [
+      "Preserve source Gold row colors.",
+      "Use subtle alternating rows in appearance themes and clear separators in contrast themes.",
+      "Provide distinct hover and selection styles with an additional selection marker."
+    ],
+    "contrast_policy": {
+      "appearance_normal_text_minimum": 4.5,
+      "appearance_large_text_minimum": 3,
+      "contrast_theme_normal_text_minimum": 7,
+      "contrast_theme_large_text_minimum": 4.5,
+      "essential_non_text_indicators_minimum": 3,
+      "note": "Validate every actual state and adjacent surface. Decorative separators need not reach the essential-indicator target. Disabled text has an accessibility-standard exception, but this specification keeps it readable."
+    },
+    "sources_do_not_certify_accessibility": true
+  },
+  "theme_lists": {
+    "appearance": [
+      "gold",
+      "steel",
+      "security",
+      "forest",
+      "ocean",
+      "galaxy"
+    ],
+    "accessibility": [
+      "contrast",
+      "contrast_light",
+      "comfort"
+    ]
+  },
+  "themes": [
+    {
+      "id": "gold",
+      "name": "Gold",
+      "former_names": [
+        "Dark Gold",
+        "Black Gold"
+      ],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Black and charcoal surfaces, warm metallic gold text and detailing, restrained steel-blue secondary accents. Elegant and professional.",
+      "design_constraints": [
+        "Preserve gold accents #DAA520 and #FFD700.",
+        "Use steel blue #3C5A7A as a secondary accent.",
+        "Preserve original table rows #181818 and #23231B."
+      ],
+      "provenance": {
+        "type": "historical_css_with_documented_extensions",
+        "source_id": "gold",
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#0D0E10",
+        "surface": "#181818",
+        "surface_raised": "#242424",
+        "text": "#E8E4D9",
+        "text_muted": "#B8B2A5",
+        "accent": "#DAA520",
+        "accent_bright": "#FFD700",
+        "border_subtle": "#414141",
+        "border_control": "#626262",
+        "link": "#DAA520",
+        "selection_background": "#444444",
+        "selection_foreground": "#FFD700",
+        "focus": "#FFD700",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#242424",
+              "foreground": "#E8E4D9",
+              "border": "#626262"
+            },
+            "hover": {
+              "background": "#444444",
+              "foreground": "#E8E4D9",
+              "border": "#49412D"
+            },
+            "pressed": {
+              "background": "#3C3C3C",
+              "foreground": "#E8E4D9",
+              "border": "#49412D"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#DAA520",
+              "foreground": "#101010",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "pressed": {
+              "background": "#3C3C3C",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#222222",
+              "foreground": "#FFD700",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "pressed": {
+              "background": "#3C3C3C",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#222222",
+              "foreground": "#2196F3",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#2196F3",
+              "foreground": "#000000",
+              "border": "#004A86"
+            },
+            "pressed": {
+              "background": "#1D84D6",
+              "foreground": "#000000",
+              "border": "#004A86"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#222222",
+              "foreground": "#F14F4F",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#E74C3C",
+              "foreground": "#000000",
+              "border": "#FF0000"
+            },
+            "pressed": {
+              "background": "#CB4335",
+              "foreground": "#FAFAFA",
+              "border": "#FF0000"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#222222",
+              "foreground": "#2FA52B",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#222222",
+              "foreground": "#2FA52B",
+              "border": "#DAA520"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "selected_hover": {
+              "background": "#444444",
+              "foreground": "#FFD700",
+              "border": "#FFD700"
+            },
+            "disabled": {
+              "background": "#23231B",
+              "foreground": "#A3A8AF",
+              "border": "#49412D",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#FFD700",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#222222",
+            "foreground": "#FFD700",
+            "border": "#FFD700"
+          },
+          "hover": {
+            "background": "#444444",
+            "foreground": "#FFD700",
+            "border": "#FFD700"
+          },
+          "pressed": {
+            "background": "#3C3C3C",
+            "foreground": "#FFD700",
+            "border": "#FFD700"
+          },
+          "selected": {
+            "background": "#444444",
+            "foreground": "#FFD700",
+            "border": "#FFD700"
+          },
+          "selected_hover": {
+            "background": "#444444",
+            "foreground": "#FFD700",
+            "border": "#FFD700"
+          },
+          "disabled": {
+            "background": "#23231B",
+            "foreground": "#A3A8AF",
+            "border": "#49412D",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#0D0E10",
+          "foreground": "#E8E4D9",
+          "placeholder": "#B8B2A5",
+          "border": "#626262",
+          "hover_border": "#FFD700",
+          "focus_ring": "#FFD700",
+          "disabled_background": "#23231B",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#49412D",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#23231B",
+          "header_foreground": "#E8E4D9",
+          "row_even_background": "#181818",
+          "row_odd_background": "#23231B",
+          "row_foreground": "#E8E4D9",
+          "row_separator": "#49412D",
+          "hover_background": "#444444",
+          "hover_foreground": "#E8E4D9",
+          "selected_background": "#444444",
+          "selected_foreground": "#FFD700",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#181818",
+          "foreground": "#E8E4D9",
+          "active_background": "#444444",
+          "active_foreground": "#FFD700",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#181818",
+          "foreground": "#E8E4D9",
+          "border": "#DAA520",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "autumn",
+      "name": "Autumn",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Warm chestnut surfaces with copper and amber accents.",
+      "design_constraints": [
+        "Warm brown and amber palette; preserve readable interaction states."
+      ],
+      "provenance": {
+        "type": "application_extension",
+        "note": "Restored Autumn theme at user request."
+      },
+      "colors": {
+        "background": "#241B16",
+        "surface": "#30231B",
+        "surface_raised": "#403025",
+        "text": "#FFF0DC",
+        "text_muted": "#D0BCA5",
+        "accent": "#EBA25D",
+        "accent_bright": "#FFD19B",
+        "border_subtle": "#77583E",
+        "border_control": "#EBA25D",
+        "link": "#EBA25D",
+        "selection_background": "#60452E",
+        "selection_foreground": "#FFD19B",
+        "focus": "#FFD19B",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#FFF0DC",
+              "border": "#77583E"
+            },
+            "hover": {
+              "background": "#60452E",
+              "foreground": "#FFF0DC",
+              "border": "#77583E"
+            },
+            "pressed": {
+              "background": "#513824",
+              "foreground": "#FFF0DC",
+              "border": "#77583E"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#FFD19B",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "pressed": {
+              "background": "#513824",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#FFD19B",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "pressed": {
+              "background": "#513824",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#2196F3",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#2196F3",
+              "foreground": "#000000",
+              "border": "#004A86"
+            },
+            "pressed": {
+              "background": "#1D84D6",
+              "foreground": "#000000",
+              "border": "#004A86"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#F14F4F",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#E74C3C",
+              "foreground": "#000000",
+              "border": "#FF0000"
+            },
+            "pressed": {
+              "background": "#CB4335",
+              "foreground": "#FAFAFA",
+              "border": "#FF0000"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#2FA52B",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#39291F",
+              "foreground": "#2FA52B",
+              "border": "#EBA25D"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "selected_hover": {
+              "background": "#60452E",
+              "foreground": "#FFD19B",
+              "border": "#FFD19B"
+            },
+            "disabled": {
+              "background": "#403025",
+              "foreground": "#A3A8AF",
+              "border": "#77583E",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#FFD19B",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#39291F",
+            "foreground": "#FFD19B",
+            "border": "#FFD19B"
+          },
+          "hover": {
+            "background": "#60452E",
+            "foreground": "#FFD19B",
+            "border": "#FFD19B"
+          },
+          "pressed": {
+            "background": "#513824",
+            "foreground": "#FFD19B",
+            "border": "#FFD19B"
+          },
+          "selected": {
+            "background": "#60452E",
+            "foreground": "#FFD19B",
+            "border": "#FFD19B"
+          },
+          "selected_hover": {
+            "background": "#60452E",
+            "foreground": "#FFD19B",
+            "border": "#FFD19B"
+          },
+          "disabled": {
+            "background": "#403025",
+            "foreground": "#A3A8AF",
+            "border": "#77583E",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#403025",
+          "foreground": "#FFF0DC",
+          "placeholder": "#D0BCA5",
+          "border": "#77583E",
+          "hover_border": "#FFD19B",
+          "focus_ring": "#FFD19B",
+          "disabled_background": "#403025",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#77583E",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#403025",
+          "header_foreground": "#FFF0DC",
+          "row_even_background": "#30231B",
+          "row_odd_background": "#403025",
+          "row_foreground": "#FFF0DC",
+          "row_separator": "#77583E",
+          "hover_background": "#60452E",
+          "hover_foreground": "#FFF0DC",
+          "selected_background": "#60452E",
+          "selected_foreground": "#FFD19B",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#30231B",
+          "foreground": "#FFF0DC",
+          "active_background": "#60452E",
+          "active_foreground": "#FFD19B",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#30231B",
+          "foreground": "#FFF0DC",
+          "border": "#EBA25D",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "former_names": [
+        "Blue Steel"
+      ],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Cool dark navy, slate and steel blue with pale-blue text and highlights. Precise, industrial and restrained.",
+      "design_constraints": [
+        "Preserve the relationship between #2C3E50, #3C5A7A and #99CCFF.",
+        "Avoid saturated electric-blue or neon styling."
+      ],
+      "provenance": {
+        "type": "historical_css_with_documented_extensions",
+        "source_id": "steel",
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#17212B",
+        "surface": "#223140",
+        "surface_raised": "#2C3E50",
+        "text": "#E5EDF5",
+        "text_muted": "#AFBDCC",
+        "accent": "#99CCFF",
+        "accent_bright": "#C2E0FF",
+        "border_subtle": "#3C5A7A",
+        "border_control": "#637B95",
+        "link": "#99CCFF",
+        "selection_background": "#3C5A7A",
+        "selection_foreground": "#A4D2FF",
+        "focus": "#C2E0FF",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#E5EDF5",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#3C5A7A",
+              "foreground": "#E5EDF5",
+              "border": "#3C5A7A"
+            },
+            "pressed": {
+              "background": "#354F6B",
+              "foreground": "#E5EDF5",
+              "border": "#3C5A7A"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#99CCFF",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "pressed": {
+              "background": "#354F6B",
+              "foreground": "#99CCFF",
+              "border": "#99CCFF"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#99CCFF",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "pressed": {
+              "background": "#354F6B",
+              "foreground": "#99CCFF",
+              "border": "#99CCFF"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#98A8B9",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#99CCFF",
+              "foreground": "#000000",
+              "border": "#3C5A7A"
+            },
+            "pressed": {
+              "background": "#87B4E0",
+              "foreground": "#000000",
+              "border": "#3C5A7A"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#FF8A8A",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#5FBA5C",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#2C3E50",
+              "foreground": "#5FBA5C",
+              "border": "#3C5A7A"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "selected_hover": {
+              "background": "#3C5A7A",
+              "foreground": "#A4D2FF",
+              "border": "#99CCFF"
+            },
+            "disabled": {
+              "background": "#2C3E50",
+              "foreground": "#A3A8AF",
+              "border": "#3C5A7A",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#C2E0FF",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#222222",
+            "foreground": "#99CCFF",
+            "border": "#3C5A7A"
+          },
+          "hover": {
+            "background": "#3C5A7A",
+            "foreground": "#A4D2FF",
+            "border": "#99CCFF"
+          },
+          "pressed": {
+            "background": "#354F6B",
+            "foreground": "#99CCFF",
+            "border": "#99CCFF"
+          },
+          "selected": {
+            "background": "#3C5A7A",
+            "foreground": "#A4D2FF",
+            "border": "#99CCFF"
+          },
+          "selected_hover": {
+            "background": "#3C5A7A",
+            "foreground": "#A4D2FF",
+            "border": "#99CCFF"
+          },
+          "disabled": {
+            "background": "#2C3E50",
+            "foreground": "#A3A8AF",
+            "border": "#3C5A7A",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#2C3E50",
+          "foreground": "#E5EDF5",
+          "placeholder": "#AFBDCC",
+          "border": "#3C5A7A",
+          "hover_border": "#99CCFF",
+          "focus_ring": "#C2E0FF",
+          "disabled_background": "#2C3E50",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#3C5A7A",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#2C3E50",
+          "header_foreground": "#E5EDF5",
+          "row_even_background": "#223140",
+          "row_odd_background": "#273747",
+          "row_foreground": "#E5EDF5",
+          "row_separator": "#3C5A7A",
+          "hover_background": "#3C5A7A",
+          "hover_foreground": "#E5EDF5",
+          "selected_background": "#3C5A7A",
+          "selected_foreground": "#A4D2FF",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#223140",
+          "foreground": "#E5EDF5",
+          "active_background": "#3C5A7A",
+          "active_foreground": "#A4D2FF",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#223140",
+          "foreground": "#E5EDF5",
+          "border": "#637B95",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "former_names": [
+        "High Security"
+      ],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Black-red and burgundy surfaces, pale-red text accents, stronger crimson interaction states. A serious secure-operations console.",
+      "design_constraints": [
+        "Keep successful actions green.",
+        "Do not make ordinary content look like an error.",
+        "Destructive actions need explicit labels and distinct icons."
+      ],
+      "provenance": {
+        "type": "historical_css_with_documented_extensions",
+        "source_id": "security",
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#120D0E",
+        "surface": "#201517",
+        "surface_raised": "#2A1A1A",
+        "text": "#F0E7EA",
+        "text_muted": "#BFAEB5",
+        "accent": "#FF8A8A",
+        "accent_bright": "#FF4444",
+        "border_subtle": "#593139",
+        "border_control": "#8D5757",
+        "link": "#FF8A8A",
+        "selection_background": "#7A3C3C",
+        "selection_foreground": "#FFAAAA",
+        "focus": "#FF4444",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#F0E7EA",
+              "border": "#593139"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#F0E7EA",
+              "border": "#593139"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#F0E7EA",
+              "border": "#593139"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#FF8A8A",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#FF9393",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#FF8A8A",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#FF9393",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#FF8A8A",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#FF4444",
+              "foreground": "#000000",
+              "border": "#7A3C3C"
+            },
+            "pressed": {
+              "background": "#E03C3C",
+              "foreground": "#000000",
+              "border": "#7A3C3C"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#FF4444",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF0000"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF0000"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#2FA52B",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#2A1A1A",
+              "foreground": "#2FA52B",
+              "border": "#7A3C3C"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "selected_hover": {
+              "background": "#7A3C3C",
+              "foreground": "#FFAAAA",
+              "border": "#FF4444"
+            },
+            "disabled": {
+              "background": "#2A1A1A",
+              "foreground": "#A3A8AF",
+              "border": "#593139",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#FF4444",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#2A1A1A",
+            "foreground": "#FF8A8A",
+            "border": "#7A3C3C"
+          },
+          "hover": {
+            "background": "#7A3C3C",
+            "foreground": "#FFAAAA",
+            "border": "#FF4444"
+          },
+          "pressed": {
+            "background": "#6B3535",
+            "foreground": "#FF9393",
+            "border": "#FF4444"
+          },
+          "selected": {
+            "background": "#7A3C3C",
+            "foreground": "#FFAAAA",
+            "border": "#FF4444"
+          },
+          "selected_hover": {
+            "background": "#7A3C3C",
+            "foreground": "#FFAAAA",
+            "border": "#FF4444"
+          },
+          "disabled": {
+            "background": "#2A1A1A",
+            "foreground": "#A3A8AF",
+            "border": "#593139",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#2A1A1A",
+          "foreground": "#F0E7EA",
+          "placeholder": "#BFAEB5",
+          "border": "#593139",
+          "hover_border": "#FF4444",
+          "focus_ring": "#FF4444",
+          "disabled_background": "#2A1A1A",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#593139",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#2A1A1A",
+          "header_foreground": "#F0E7EA",
+          "row_even_background": "#201517",
+          "row_odd_background": "#241718",
+          "row_foreground": "#F0E7EA",
+          "row_separator": "#593139",
+          "hover_background": "#7A3C3C",
+          "hover_foreground": "#F0E7EA",
+          "selected_background": "#7A3C3C",
+          "selected_foreground": "#FFAAAA",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#201517",
+          "foreground": "#F0E7EA",
+          "active_background": "#7A3C3C",
+          "active_foreground": "#FFAAAA",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#201517",
+          "foreground": "#F0E7EA",
+          "border": "#8D5757",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "forest",
+      "name": "Forest",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Deep evergreen surfaces, moss borders and sage highlights. Calm, grounded woodland character.",
+      "design_constraints": [
+        "Avoid neon green.",
+        "Use restrained earthy undertones."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#0D1511",
+        "surface": "#17251D",
+        "surface_raised": "#22362A",
+        "text": "#E5EDE1",
+        "text_muted": "#A8BBA5",
+        "accent": "#B5D9A6",
+        "accent_bright": "#A0CE8E",
+        "border_subtle": "#365341",
+        "border_control": "#567452",
+        "link": "#B5D9A6",
+        "selection_background": "#34523A",
+        "selection_foreground": "#B5D9A6",
+        "focus": "#A0CE8E",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#E5EDE1",
+              "border": "#365341"
+            },
+            "hover": {
+              "background": "#34523A",
+              "foreground": "#E5EDE1",
+              "border": "#365341"
+            },
+            "pressed": {
+              "background": "#2E4833",
+              "foreground": "#E5EDE1",
+              "border": "#365341"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#B5D9A6",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "pressed": {
+              "background": "#2E4833",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#B5D9A6",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "pressed": {
+              "background": "#2E4833",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#B5D9A6",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#B5D9A6",
+              "foreground": "#000000",
+              "border": "#A0CE8E"
+            },
+            "pressed": {
+              "background": "#9FBF92",
+              "foreground": "#000000",
+              "border": "#A0CE8E"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#FF8A8A",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#2FA52B",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#1B2C20",
+              "foreground": "#2FA52B",
+              "border": "#496A45"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "selected_hover": {
+              "background": "#34523A",
+              "foreground": "#B5D9A6",
+              "border": "#A0CE8E"
+            },
+            "disabled": {
+              "background": "#22362A",
+              "foreground": "#A3A8AF",
+              "border": "#365341",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#A0CE8E",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#1B2C20",
+            "foreground": "#B5D9A6",
+            "border": "#496A45"
+          },
+          "hover": {
+            "background": "#34523A",
+            "foreground": "#B5D9A6",
+            "border": "#A0CE8E"
+          },
+          "pressed": {
+            "background": "#2E4833",
+            "foreground": "#B5D9A6",
+            "border": "#A0CE8E"
+          },
+          "selected": {
+            "background": "#34523A",
+            "foreground": "#B5D9A6",
+            "border": "#A0CE8E"
+          },
+          "selected_hover": {
+            "background": "#34523A",
+            "foreground": "#B5D9A6",
+            "border": "#A0CE8E"
+          },
+          "disabled": {
+            "background": "#22362A",
+            "foreground": "#A3A8AF",
+            "border": "#365341",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#22362A",
+          "foreground": "#E5EDE1",
+          "placeholder": "#A8BBA5",
+          "border": "#365341",
+          "hover_border": "#A0CE8E",
+          "focus_ring": "#A0CE8E",
+          "disabled_background": "#22362A",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#365341",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#22362A",
+          "header_foreground": "#E5EDE1",
+          "row_even_background": "#17251D",
+          "row_odd_background": "#1C2D23",
+          "row_foreground": "#E5EDE1",
+          "row_separator": "#365341",
+          "hover_background": "#34523A",
+          "hover_foreground": "#E5EDE1",
+          "selected_background": "#34523A",
+          "selected_foreground": "#B5D9A6",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#17251D",
+          "foreground": "#E5EDE1",
+          "active_background": "#34523A",
+          "active_foreground": "#B5D9A6",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#17251D",
+          "foreground": "#E5EDE1",
+          "border": "#567452",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "ocean",
+      "name": "Ocean",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Deep marine blue and dark teal with clear aqua highlights. Fluid and spacious, with a stronger teal identity than Steel.",
+      "design_constraints": [
+        "Avoid tropical colors or beach imagery.",
+        "Keep large surfaces deep and muted."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#08151C",
+        "surface": "#102731",
+        "surface_raised": "#183A46",
+        "text": "#E1F0F2",
+        "text_muted": "#A0BDC4",
+        "accent": "#9DE0E8",
+        "accent_bright": "#75D9E5",
+        "border_subtle": "#285563",
+        "border_control": "#467484",
+        "link": "#9DE0E8",
+        "selection_background": "#235063",
+        "selection_foreground": "#9DE0E8",
+        "focus": "#75D9E5",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#E1F0F2",
+              "border": "#285563"
+            },
+            "hover": {
+              "background": "#235063",
+              "foreground": "#E1F0F2",
+              "border": "#285563"
+            },
+            "pressed": {
+              "background": "#1F4657",
+              "foreground": "#E1F0F2",
+              "border": "#285563"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#9DE0E8",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "pressed": {
+              "background": "#1F4657",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#9DE0E8",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "pressed": {
+              "background": "#1F4657",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#9DE0E8",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#9DE0E8",
+              "foreground": "#000000",
+              "border": "#75D9E5"
+            },
+            "pressed": {
+              "background": "#8AC5CC",
+              "foreground": "#000000",
+              "border": "#75D9E5"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#FF8A8A",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#2FA52B",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#102A35",
+              "foreground": "#2FA52B",
+              "border": "#326476"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "selected_hover": {
+              "background": "#235063",
+              "foreground": "#9DE0E8",
+              "border": "#75D9E5"
+            },
+            "disabled": {
+              "background": "#183A46",
+              "foreground": "#A3A8AF",
+              "border": "#285563",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#75D9E5",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#102A35",
+            "foreground": "#9DE0E8",
+            "border": "#326476"
+          },
+          "hover": {
+            "background": "#235063",
+            "foreground": "#9DE0E8",
+            "border": "#75D9E5"
+          },
+          "pressed": {
+            "background": "#1F4657",
+            "foreground": "#9DE0E8",
+            "border": "#75D9E5"
+          },
+          "selected": {
+            "background": "#235063",
+            "foreground": "#9DE0E8",
+            "border": "#75D9E5"
+          },
+          "selected_hover": {
+            "background": "#235063",
+            "foreground": "#9DE0E8",
+            "border": "#75D9E5"
+          },
+          "disabled": {
+            "background": "#183A46",
+            "foreground": "#A3A8AF",
+            "border": "#285563",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#183A46",
+          "foreground": "#E1F0F2",
+          "placeholder": "#A0BDC4",
+          "border": "#285563",
+          "hover_border": "#75D9E5",
+          "focus_ring": "#75D9E5",
+          "disabled_background": "#183A46",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#285563",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#183A46",
+          "header_foreground": "#E1F0F2",
+          "row_even_background": "#102731",
+          "row_odd_background": "#14303A",
+          "row_foreground": "#E1F0F2",
+          "row_separator": "#285563",
+          "hover_background": "#235063",
+          "hover_foreground": "#E1F0F2",
+          "selected_background": "#235063",
+          "selected_foreground": "#9DE0E8",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#102731",
+          "foreground": "#E1F0F2",
+          "active_background": "#235063",
+          "active_foreground": "#9DE0E8",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#102731",
+          "foreground": "#E1F0F2",
+          "border": "#467484",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "galaxy",
+      "name": "Galaxy",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "appearance",
+      "color_scheme": "dark",
+      "description": "Predominantly black and midnight blue, silver-white text and icy-blue/cyan highlights. Deep space, distant starlight and galactic depth.",
+      "design_constraints": [
+        "Purple must not dominate; at most a faint optional secondary detail.",
+        "Secondary cyan may use #77D6E8.",
+        "Optional static star points belong only in unused background space.",
+        "No particles, strong glow or imagery behind text."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#06080E",
+        "surface": "#101622",
+        "surface_raised": "#1A2434",
+        "text": "#E8EDF7",
+        "text_muted": "#A6B3C9",
+        "accent": "#C9DEFF",
+        "accent_bright": "#91BFFF",
+        "border_subtle": "#303E55",
+        "border_control": "#4E6488",
+        "link": "#C9DEFF",
+        "selection_background": "#293C5E",
+        "selection_foreground": "#C9DEFF",
+        "focus": "#91BFFF",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#E8EDF7",
+              "border": "#303E55"
+            },
+            "hover": {
+              "background": "#293C5E",
+              "foreground": "#E8EDF7",
+              "border": "#303E55"
+            },
+            "pressed": {
+              "background": "#243553",
+              "foreground": "#E8EDF7",
+              "border": "#303E55"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#C9DEFF",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "pressed": {
+              "background": "#243553",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#C9DEFF",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "pressed": {
+              "background": "#243553",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#C9DEFF",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#C9DEFF",
+              "foreground": "#000000",
+              "border": "#91BFFF"
+            },
+            "pressed": {
+              "background": "#B1C3E0",
+              "foreground": "#000000",
+              "border": "#91BFFF"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#FF8A8A",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#2FA52B",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#141D30",
+              "foreground": "#2FA52B",
+              "border": "#435A80"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "selected_hover": {
+              "background": "#293C5E",
+              "foreground": "#C9DEFF",
+              "border": "#91BFFF"
+            },
+            "disabled": {
+              "background": "#1A2434",
+              "foreground": "#A3A8AF",
+              "border": "#303E55",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#91BFFF",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#141D30",
+            "foreground": "#C9DEFF",
+            "border": "#435A80"
+          },
+          "hover": {
+            "background": "#293C5E",
+            "foreground": "#C9DEFF",
+            "border": "#91BFFF"
+          },
+          "pressed": {
+            "background": "#243553",
+            "foreground": "#C9DEFF",
+            "border": "#91BFFF"
+          },
+          "selected": {
+            "background": "#293C5E",
+            "foreground": "#C9DEFF",
+            "border": "#91BFFF"
+          },
+          "selected_hover": {
+            "background": "#293C5E",
+            "foreground": "#C9DEFF",
+            "border": "#91BFFF"
+          },
+          "disabled": {
+            "background": "#1A2434",
+            "foreground": "#A3A8AF",
+            "border": "#303E55",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#1A2434",
+          "foreground": "#E8EDF7",
+          "placeholder": "#A6B3C9",
+          "border": "#303E55",
+          "hover_border": "#91BFFF",
+          "focus_ring": "#91BFFF",
+          "disabled_background": "#1A2434",
+          "disabled_foreground": "#A3A8AF",
+          "disabled_border": "#303E55",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#1A2434",
+          "header_foreground": "#E8EDF7",
+          "row_even_background": "#101622",
+          "row_odd_background": "#141C2A",
+          "row_foreground": "#E8EDF7",
+          "row_separator": "#303E55",
+          "hover_background": "#293C5E",
+          "hover_foreground": "#E8EDF7",
+          "selected_background": "#293C5E",
+          "selected_foreground": "#C9DEFF",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#101622",
+          "foreground": "#E8EDF7",
+          "active_background": "#293C5E",
+          "active_foreground": "#C9DEFF",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#101622",
+          "foreground": "#E8EDF7",
+          "border": "#4E6488",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": true,
+        "frosted_surfaces_optional": true,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": true
+      }
+    },
+    {
+      "id": "contrast",
+      "name": "Contrast",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "accessibility",
+      "color_scheme": "dark",
+      "description": "Functional high contrast: black backgrounds, white text, strong outlines, yellow selection and cyan focus. Readability takes priority over decoration.",
+      "design_constraints": [
+        "No gradients, transparency, blur, glow, background imagery or decorative shadows.",
+        "Use visible separators instead of subtle surface differences.",
+        "Do not hide essential controls until hover."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#000000",
+        "surface": "#000000",
+        "surface_raised": "#000000",
+        "text": "#FFFFFF",
+        "text_muted": "#D9D9D9",
+        "accent": "#FFFF00",
+        "accent_bright": "#00FFFF",
+        "border_subtle": "#FFFFFF",
+        "border_control": "#FFFFFF",
+        "link": "#00FFFF",
+        "selection_background": "#FFFF00",
+        "selection_foreground": "#000000",
+        "focus": "#00FFFF",
+        "focus_gap": "#000000"
+      },
+      "contrast_targets": {
+        "normal_text": 7,
+        "large_text": 4.5,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#FFFFFF"
+            },
+            "hover": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "pressed": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "selected_hover": {
+              "background": "#FFFF00",
+              "foreground": "#000000",
+              "border": "#FFFFFF"
+            },
+            "disabled": {
+              "background": "#000000",
+              "foreground": "#B3B3B3",
+              "border": "#B3B3B3",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 2,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#00FFFF",
+          "focus_gap_color": "#000000"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#000000",
+            "foreground": "#FFFFFF",
+            "border": "#FFFFFF"
+          },
+          "hover": {
+            "background": "#FFFFFF",
+            "foreground": "#000000",
+            "border": "#FFFFFF"
+          },
+          "pressed": {
+            "background": "#FFFF00",
+            "foreground": "#000000",
+            "border": "#FFFFFF"
+          },
+          "selected": {
+            "background": "#FFFF00",
+            "foreground": "#000000",
+            "border": "#FFFFFF"
+          },
+          "selected_hover": {
+            "background": "#FFFF00",
+            "foreground": "#000000",
+            "border": "#FFFFFF"
+          },
+          "disabled": {
+            "background": "#000000",
+            "foreground": "#B3B3B3",
+            "border": "#B3B3B3",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#000000",
+          "foreground": "#FFFFFF",
+          "placeholder": "#D9D9D9",
+          "border": "#FFFFFF",
+          "hover_border": "#FFFFFF",
+          "focus_ring": "#00FFFF",
+          "disabled_background": "#000000",
+          "disabled_foreground": "#B3B3B3",
+          "disabled_border": "#FFFFFF",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#000000",
+          "header_foreground": "#FFFFFF",
+          "row_even_background": "#000000",
+          "row_odd_background": "#000000",
+          "row_foreground": "#FFFFFF",
+          "row_separator": "#FFFFFF",
+          "hover_background": "#FFFFFF",
+          "hover_foreground": "#595959",
+          "selected_background": "#FFFF00",
+          "selected_foreground": "#000000",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": true
+        },
+        "navigation": {
+          "background": "#000000",
+          "foreground": "#FFFFFF",
+          "active_background": "#FFFF00",
+          "active_foreground": "#000000",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#000000",
+          "foreground": "#FFFFFF",
+          "border": "#FFFFFF",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#84FF80",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#FFD166",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#FF8A8A",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#99CCFF",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": false,
+        "frosted_surfaces_optional": false,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": false
+      }
+    },
+    {
+      "id": "contrast_light",
+      "name": "Contrast Light",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "accessibility",
+      "color_scheme": "light",
+      "description": "Light high-contrast counterpart: white backgrounds, black text and strong black control outlines, dark-blue links and selection.",
+      "design_constraints": [
+        "No gradients, transparency, blur, glow, background imagery or decorative shadows.",
+        "Offer independently of dark Contrast; users choose their preferred polarity."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#FFFFFF",
+        "surface": "#FFFFFF",
+        "surface_raised": "#FFFFFF",
+        "text": "#000000",
+        "text_muted": "#333333",
+        "accent": "#003399",
+        "accent_bright": "#005FCC",
+        "border_subtle": "#000000",
+        "border_control": "#000000",
+        "link": "#003399",
+        "selection_background": "#003399",
+        "selection_foreground": "#FFFFFF",
+        "focus": "#005FCC",
+        "focus_gap": "#FFFFFF"
+      },
+      "contrast_targets": {
+        "normal_text": 7,
+        "large_text": 4.5,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#FFFFFF",
+              "foreground": "#000000",
+              "border": "#000000"
+            },
+            "hover": {
+              "background": "#000000",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "pressed": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "selected_hover": {
+              "background": "#003399",
+              "foreground": "#FFFFFF",
+              "border": "#000000"
+            },
+            "disabled": {
+              "background": "#FFFFFF",
+              "foreground": "#595959",
+              "border": "#595959",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 2,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#005FCC",
+          "focus_gap_color": "#FFFFFF"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#FFFFFF",
+            "foreground": "#000000",
+            "border": "#000000"
+          },
+          "hover": {
+            "background": "#000000",
+            "foreground": "#FFFFFF",
+            "border": "#000000"
+          },
+          "pressed": {
+            "background": "#003399",
+            "foreground": "#FFFFFF",
+            "border": "#000000"
+          },
+          "selected": {
+            "background": "#003399",
+            "foreground": "#FFFFFF",
+            "border": "#000000"
+          },
+          "selected_hover": {
+            "background": "#003399",
+            "foreground": "#FFFFFF",
+            "border": "#000000"
+          },
+          "disabled": {
+            "background": "#FFFFFF",
+            "foreground": "#595959",
+            "border": "#595959",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#FFFFFF",
+          "foreground": "#000000",
+          "placeholder": "#333333",
+          "border": "#000000",
+          "hover_border": "#000000",
+          "focus_ring": "#005FCC",
+          "disabled_background": "#FFFFFF",
+          "disabled_foreground": "#595959",
+          "disabled_border": "#000000",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#FFFFFF",
+          "header_foreground": "#000000",
+          "row_even_background": "#FFFFFF",
+          "row_odd_background": "#FFFFFF",
+          "row_foreground": "#000000",
+          "row_separator": "#000000",
+          "hover_background": "#000000",
+          "hover_foreground": "#969696",
+          "selected_background": "#003399",
+          "selected_foreground": "#FFFFFF",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": true
+        },
+        "navigation": {
+          "background": "#FFFFFF",
+          "foreground": "#000000",
+          "active_background": "#003399",
+          "active_foreground": "#FFFFFF",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#FFFFFF",
+          "foreground": "#000000",
+          "border": "#000000",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#19652B",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#7C4E00",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#A52335",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#003399",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": false,
+        "frosted_surfaces_optional": false,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": false
+      }
+    },
+    {
+      "id": "comfort",
+      "name": "Comfort",
+      "former_names": [],
+      "required": true,
+      "implementation_status": "mandatory",
+      "category": "accessibility",
+      "color_scheme": "light",
+      "description": "Quiet warm-light theme: off-white surfaces, charcoal text and subdued teal accents. Reduce harsh brightness and decorative clutter while preserving readable contrast.",
+      "design_constraints": [
+        "A preference option, not a claim of treatment or universal suitability.",
+        "No decorative motion, gradients, glow, transparency or background imagery.",
+        "Do not lower text contrast in an attempt to make the theme softer."
+      ],
+      "provenance": {
+        "type": "new_specification",
+        "source_id": null,
+        "note": "Page palettes and missing interaction states are specified extensions. Historical custom properties are preserved separately. Readability fixes take precedence over literal reproduction."
+      },
+      "colors": {
+        "background": "#F2F0E8",
+        "surface": "#FAF8F1",
+        "surface_raised": "#E8E5DB",
+        "text": "#262A2D",
+        "text_muted": "#555B5C",
+        "accent": "#345C60",
+        "accent_bright": "#234B50",
+        "border_subtle": "#77766F",
+        "border_control": "#667E7B",
+        "link": "#345C60",
+        "selection_background": "#D8E2DD",
+        "selection_foreground": "#294C50",
+        "focus": "#234B50",
+        "focus_gap": "#FFFFFF"
+      },
+      "contrast_targets": {
+        "normal_text": 4.5,
+        "large_text": 3,
+        "essential_non_text_indicators": 3,
+        "scope": "Verify actual adjacent backgrounds in all states. Subtle decorative separators are not essential indicators. These targets do not certify full WCAG conformance."
+      },
+      "components": {
+        "buttons": {
+          "standard": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#262A2D",
+              "border": "#77766F"
+            },
+            "hover": {
+              "background": "#D8E2DD",
+              "foreground": "#262A2D",
+              "border": "#77766F"
+            },
+            "pressed": {
+              "background": "#BEC7C2",
+              "foreground": "#262A2D",
+              "border": "#77766F"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "primary": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#294C50",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "pressed": {
+              "background": "#BEC7C2",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "secondary": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#294C50",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "pressed": {
+              "background": "#BEC7C2",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "edit": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#294C50",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#345C60",
+              "foreground": "#CCCCCC",
+              "border": "#234B50"
+            },
+            "pressed": {
+              "background": "#2E5154",
+              "foreground": "#BDBDBD",
+              "border": "#234B50"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "delete": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#A52335",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#7A3C3C",
+              "foreground": "#C2C2C2",
+              "border": "#FF4444"
+            },
+            "pressed": {
+              "background": "#6B3535",
+              "foreground": "#B2B2B2",
+              "border": "#FF4444"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "save": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#21751F",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          },
+          "buy": {
+            "normal": {
+              "background": "#E8E5DB",
+              "foreground": "#21751F",
+              "border": "#667E7B"
+            },
+            "hover": {
+              "background": "#2FA52B",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "pressed": {
+              "background": "#299126",
+              "foreground": "#000000",
+              "border": "#84FF80"
+            },
+            "selected": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "selected_hover": {
+              "background": "#D8E2DD",
+              "foreground": "#294C50",
+              "border": "#345C60"
+            },
+            "disabled": {
+              "background": "#E8E5DB",
+              "foreground": "#595959",
+              "border": "#77766F",
+              "border_style": "dashed"
+            }
+          }
+        },
+        "button_geometry": {
+          "border_width_px": 1,
+          "focus_ring_width_px": 3,
+          "focus_gap_px": 2,
+          "focus_ring_color": "#234B50",
+          "focus_gap_color": "#FFFFFF"
+        },
+        "pagination": {
+          "normal": {
+            "background": "#E8E5DB",
+            "foreground": "#294C50",
+            "border": "#667E7B"
+          },
+          "hover": {
+            "background": "#D8E2DD",
+            "foreground": "#294C50",
+            "border": "#345C60"
+          },
+          "pressed": {
+            "background": "#BEC7C2",
+            "foreground": "#294C50",
+            "border": "#345C60"
+          },
+          "selected": {
+            "background": "#D8E2DD",
+            "foreground": "#294C50",
+            "border": "#345C60"
+          },
+          "selected_hover": {
+            "background": "#D8E2DD",
+            "foreground": "#294C50",
+            "border": "#345C60"
+          },
+          "disabled": {
+            "background": "#E8E5DB",
+            "foreground": "#595959",
+            "border": "#77766F",
+            "border_style": "dashed"
+          }
+        },
+        "inputs": {
+          "background": "#E8E5DB",
+          "foreground": "#262A2D",
+          "placeholder": "#555B5C",
+          "border": "#77766F",
+          "hover_border": "#345C60",
+          "focus_ring": "#234B50",
+          "disabled_background": "#E8E5DB",
+          "disabled_foreground": "#595959",
+          "disabled_border": "#77766F",
+          "invalid_indicator": "Explicit error message plus error icon; never border color alone."
+        },
+        "tables": {
+          "header_background": "#E8E5DB",
+          "header_foreground": "#262A2D",
+          "row_even_background": "#FAF8F1",
+          "row_odd_background": "#F2EFE7",
+          "row_foreground": "#262A2D",
+          "row_separator": "#77766F",
+          "hover_background": "#D8E2DD",
+          "hover_foreground": "#262A2D",
+          "selected_background": "#D8E2DD",
+          "selected_foreground": "#294C50",
+          "selection_indicator": "Checkmark or visible selected marker, exposed to assistive technology.",
+          "high_contrast_separators": false
+        },
+        "navigation": {
+          "background": "#FAF8F1",
+          "foreground": "#262A2D",
+          "active_background": "#D8E2DD",
+          "active_foreground": "#294C50",
+          "active_indicator": "Persistent marker and programmatic current/selected state."
+        },
+        "dialogs_and_tooltips": {
+          "background": "#FAF8F1",
+          "foreground": "#262A2D",
+          "border": "#667E7B",
+          "opaque": true
+        },
+        "status": {
+          "success": {
+            "foreground": "#208337",
+            "icon": "check",
+            "label_required": true
+          },
+          "warning": {
+            "foreground": "#8A5700",
+            "icon": "warning",
+            "label_required": true
+          },
+          "error": {
+            "foreground": "#A52335",
+            "icon": "error",
+            "label_required": true
+          },
+          "information": {
+            "foreground": "#003399",
+            "icon": "information",
+            "label_required": true
+          }
+        }
+      },
+      "effects": {
+        "decorative_motion": false,
+        "background_imagery": false,
+        "subtle_gradients_allowed": false,
+        "frosted_surfaces_optional": false,
+        "frosted_fallback": "Opaque panel color; validate composited contrast.",
+        "glow": false,
+        "decorative_shadows_allowed": false
+      }
+    }
+  ],
+  "accessibility_settings": [
+    {
+      "id": "color_independent_indicators",
+      "required": true,
+      "enabled_by_default": true,
+      "requirements": [
+        "Never communicate status, selection, errors or action meaning through color alone.",
+        "Use text labels and meaningful icons; use patterns or line styles in charts.",
+        "Retain explicit labels for Save, Edit, Delete and Buy in every theme."
+      ]
+    },
+    {
+      "id": "text_size_and_spacing",
+      "required": true,
+      "user_adjustable": true,
+      "requirements": [
+        "Allow independent text scaling and user text-spacing preferences.",
+        "Support at least 200% text resizing and test 400% zoom/reflow where applicable.",
+        "Avoid clipped labels, fixed-height text containers and loss of functionality.",
+        "Use a clear system or readable sans-serif font, without thin text weights.",
+        "Do not claim a particular font universally addresses dyslexia."
+      ]
+    },
+    {
+      "id": "comfortable_controls",
+      "required": true,
+      "user_adjustable": true,
+      "requirements": [
+        "Offer comfortable control sizing and spacing independently of theme.",
+        "Aim for at least 44 by 44 CSS pixels or equivalent logical units for interactive targets; adapt dense interfaces with adequate spacing.",
+        "Maintain full keyboard operation and visible focus without requiring precise pointer movement."
+      ]
+    },
+    {
+      "id": "reduced_motion",
+      "required": true,
+      "user_adjustable": true,
+      "follow_system_by_default": true,
+      "requirements": [
+        "Remove nonessential movement, animated backgrounds, parallax and animated theme transitions when enabled.",
+        "Respect prefers-reduced-motion in web applications or the native system equivalent.",
+        "Avoid flashing effects in every theme."
+      ]
+    },
+    {
+      "id": "reduced_visual_clutter",
+      "required": true,
+      "user_adjustable": true,
+      "requirements": [
+        "Suppress decorative backgrounds, gradients, transparency, blur, glow and nonessential shadows.",
+        "Preserve familiar layout, navigation, essential controls and task information."
+      ]
+    },
+    {
+      "id": "system_contrast_support",
+      "required": true,
+      "follow_system_by_default": true,
+      "requirements": [
+        "Respect user-selected operating-system contrast palettes.",
+        "In web applications support forced-colors and system color keywords.",
+        "Do not globally disable forced-color adjustments to preserve the application palette.",
+        "Keep focus and controls identifiable when shadows or background images are removed."
+      ]
+    },
+    {
+      "id": "assistive_technology_and_keyboard",
+      "required": true,
+      "enabled_by_default": true,
+      "requirements": [
+        "Use native semantic controls where available, accessible names, labels and exposed states.",
+        "Provide logical keyboard order, keyboard-operable dialogs and reliable focus management.",
+        "Announce important status changes appropriately without excessive interruptions.",
+        "Do not hide essential controls until hover or depend on tooltips as the only label."
+      ]
+    }
+  ],
+  "historical_references": {
+    "gold": {
+      "file_name": "theme-darkgold(1).css",
+      "role": "Historical reference; use rendered theme tokens below for implementation.",
+      "original_css": ":root {\n  /* Base roles */\n  --color-primary: #daa520;   \n  --color-primary-bright: #ffd700;\n  --color-secondary: #3c5a7a; /* Steel Blue */\n\n  --color-text-light: #c0c0c0;\n  --color-text-accent: #9cf;\n\n  --color-danger: #ff4444;\n  --color-danger-dark: #7a3c3c;\n\n  --color-bg-dark: #2c3e50;\n  --color-background: rgba(0, 0, 0, 0.3);\n  --color-black: #000;\n  --color-xpbarbg: #2c2c30;\n  --color-frosted:rgba(40,45,55,0.55);\n  --color-evenrow: #181818;\n  --color-oddrow: #23231b;\n\n  --button-disabled-border-color: #333;\n  --button-disabled-color: #666;\n\n  --button-standard: #ffd700;\n  --button-standard-hover-bg: #444;\n  --button-standard-hover-border: #ffd700;\n\n  --button-delete: #f04848;\n  --button-delete-hover-bg: #e74c3c;\n  --button-delete-hover-border: #ff0000;\n  --button-delete-hover-color: #000;\n\n  --button-edit: #2196f3;\n  --button-edit-hover-bg: #2196f3;\n  --button-edit-hover-border: #004a86;\n  --button-edit-hover-color: #000;\n\n  --button-save: #2fa52b;\n  --button-save-hover-bg: #2fa52b;\n  --button-save-hover-border: #84ff80;\n  --button-save-hover-color: #000;\n\n  --button-buy: #2fa52b;\n  --button-buy-hover-bg: #2fa52b;\n  --button-buy-hover-border: #84ff80;\n  --button-buy-hover-color: #000;\n  \n  --button-pager-bg: #222;\n  --button-pager-color: #ffd700;\n  --button-pager-border: #ffd700;\n  --button-pager-hover-bg: #444;\n  --button-pager-hover-border: #ffd700;\n}\n/* --- Text Color Utilities for Descriptions --- */\n.text-green { color: #2ecc71; font-weight: bold; }\n.text-red { color: #e74c3c; font-weight: bold; }\n.text-blue { color: #3498db; font-weight: bold; }\n.text-gold { color: #ffd700; font-weight: bold; }\n.text-darkgold { color: #daa520; font-weight: bold; }\n.text-white { color: #c0c0c0; font-weight: bold; }\n\n/* Value colors */\n.pos{ color:#6ddc8b !important; font-weight:700; }\n.neg{ color:#ff8a8a !important; font-weight:700; }\n.focus{ color:#9d7dff; font-weight:700; }\n.credits { color: #ffd700 !important; font-weight: 700; }",
+      "original_custom_properties": {
+        "--color-primary": "#daa520",
+        "--color-primary-bright": "#ffd700",
+        "--color-secondary": "#3c5a7a",
+        "--color-text-light": "#c0c0c0",
+        "--color-text-accent": "#9cf",
+        "--color-danger": "#ff4444",
+        "--color-danger-dark": "#7a3c3c",
+        "--color-bg-dark": "#2c3e50",
+        "--color-background": "rgba(0, 0, 0, 0.3)",
+        "--color-black": "#000",
+        "--color-xpbarbg": "#2c2c30",
+        "--color-frosted": "rgba(40,45,55,0.55)",
+        "--color-evenrow": "#181818",
+        "--color-oddrow": "#23231b",
+        "--button-disabled-border-color": "#333",
+        "--button-disabled-color": "#666",
+        "--button-standard": "#ffd700",
+        "--button-standard-hover-bg": "#444",
+        "--button-standard-hover-border": "#ffd700",
+        "--button-delete": "#f04848",
+        "--button-delete-hover-bg": "#e74c3c",
+        "--button-delete-hover-border": "#ff0000",
+        "--button-delete-hover-color": "#000",
+        "--button-edit": "#2196f3",
+        "--button-edit-hover-bg": "#2196f3",
+        "--button-edit-hover-border": "#004a86",
+        "--button-edit-hover-color": "#000",
+        "--button-save": "#2fa52b",
+        "--button-save-hover-bg": "#2fa52b",
+        "--button-save-hover-border": "#84ff80",
+        "--button-save-hover-color": "#000",
+        "--button-buy": "#2fa52b",
+        "--button-buy-hover-bg": "#2fa52b",
+        "--button-buy-hover-border": "#84ff80",
+        "--button-buy-hover-color": "#000",
+        "--button-pager-bg": "#222",
+        "--button-pager-color": "#ffd700",
+        "--button-pager-border": "#ffd700",
+        "--button-pager-hover-bg": "#444",
+        "--button-pager-hover-border": "#ffd700"
+      }
+    },
+    "steel": {
+      "file_name": "theme-bluesteel(1).css",
+      "role": "Historical reference; use rendered theme tokens below for implementation.",
+      "original_css": ":root {\n  --btn-bg: #2c3e50; \n  --btn-border: #3c5a7a;\n\n  --btn-standard-color: #9cf; /* light blue text */\n  --btn-standard-hover-bg: #3c5a7a; /* steel blue border tone */\n  --btn-standard-hover-border: #9cf;\n\n  --btn-pager-bg: #222;\n  --btn-pager-color: #9cf;\n  --btn-pager-border: #3c5a7a;\n  --btn-pager-hover-bg: #3c5a7a;\n  --btn-pager-hover-border: #9cf;\n\n  --btn-delete-color: #ff8a8a; /* lighter red to match bluesteel scheme */\n  --btn-delete-hover-bg: #7a3c3c;\n  --btn-delete-hover-border: #ff4444;\n  --btn-delete-hover-color: #000;\n\n  --btn-edit-color: #3c5a7a; /* steel blue */\n  --btn-edit-hover-bg: #9cf;\n  --btn-edit-hover-border: #3c5a7a;\n  --btn-edit-hover-color: #000;\n\n  --btn-save-color: #2fa52b; /* green remains green */\n  --btn-save-hover-bg: #2fa52b;\n  --btn-save-hover-border: #84ff80;\n  --btn-save-hover-color: #000;\n\n  --btn-buy-color: #2fa52b;\n  --btn-buy-hover-bg: #2fa52b;\n  --btn-buy-hover-border: #84ff80;\n  --btn-buy-hover-color: #000;\n}\n",
+      "original_custom_properties": {
+        "--btn-bg": "#2c3e50",
+        "--btn-border": "#3c5a7a",
+        "--btn-standard-color": "#9cf",
+        "--btn-standard-hover-bg": "#3c5a7a",
+        "--btn-standard-hover-border": "#9cf",
+        "--btn-pager-bg": "#222",
+        "--btn-pager-color": "#9cf",
+        "--btn-pager-border": "#3c5a7a",
+        "--btn-pager-hover-bg": "#3c5a7a",
+        "--btn-pager-hover-border": "#9cf",
+        "--btn-delete-color": "#ff8a8a",
+        "--btn-delete-hover-bg": "#7a3c3c",
+        "--btn-delete-hover-border": "#ff4444",
+        "--btn-delete-hover-color": "#000",
+        "--btn-edit-color": "#3c5a7a",
+        "--btn-edit-hover-bg": "#9cf",
+        "--btn-edit-hover-border": "#3c5a7a",
+        "--btn-edit-hover-color": "#000",
+        "--btn-save-color": "#2fa52b",
+        "--btn-save-hover-bg": "#2fa52b",
+        "--btn-save-hover-border": "#84ff80",
+        "--btn-save-hover-color": "#000",
+        "--btn-buy-color": "#2fa52b",
+        "--btn-buy-hover-bg": "#2fa52b",
+        "--btn-buy-hover-border": "#84ff80",
+        "--btn-buy-hover-color": "#000"
+      }
+    },
+    "security": {
+      "file_name": "theme-highsecurity.css",
+      "role": "Historical reference; use rendered theme tokens below for implementation.",
+      "original_css": ":root {\n  --btn-bg: #2a1a1a;\n  --btn-border: #7a3c3c;\n\n  --btn-standard-color: #ff8a8a; /* light red text */\n  --btn-standard-hover-bg: #7a3c3c;\n  --btn-standard-hover-border: #ff4444;\n\n  --btn-pager-bg: #2a1a1a;\n  --btn-pager-color: #ff8a8a;\n  --btn-pager-border: #7a3c3c;\n  --btn-pager-hover-bg: #7a3c3c;\n  --btn-pager-hover-border: #ff4444;\n\n  --btn-delete-color: #ff4444; /* strong red */\n  --btn-delete-hover-bg: #7a3c3c;\n  --btn-delete-hover-border: #ff0000;\n  --btn-delete-hover-color: #000;\n\n  --btn-edit-color: #ff8a8a;\n  --btn-edit-hover-bg: #ff4444;\n  --btn-edit-hover-border: #7a3c3c;\n  --btn-edit-hover-color: #000;\n\n  --btn-save-color: #2fa52b; /* keep success actions green */\n  --btn-save-hover-bg: #2fa52b;\n  --btn-save-hover-border: #84ff80;\n  --btn-save-hover-color: #000;\n\n  --btn-buy-color: #2fa52b;\n  --btn-buy-hover-bg: #2fa52b;\n  --btn-buy-hover-border: #84ff80;\n  --btn-buy-hover-color: #000;\n}\n",
+      "original_custom_properties": {
+        "--btn-bg": "#2a1a1a",
+        "--btn-border": "#7a3c3c",
+        "--btn-standard-color": "#ff8a8a",
+        "--btn-standard-hover-bg": "#7a3c3c",
+        "--btn-standard-hover-border": "#ff4444",
+        "--btn-pager-bg": "#2a1a1a",
+        "--btn-pager-color": "#ff8a8a",
+        "--btn-pager-border": "#7a3c3c",
+        "--btn-pager-hover-bg": "#7a3c3c",
+        "--btn-pager-hover-border": "#ff4444",
+        "--btn-delete-color": "#ff4444",
+        "--btn-delete-hover-bg": "#7a3c3c",
+        "--btn-delete-hover-border": "#ff0000",
+        "--btn-delete-hover-color": "#000",
+        "--btn-edit-color": "#ff8a8a",
+        "--btn-edit-hover-bg": "#ff4444",
+        "--btn-edit-hover-border": "#7a3c3c",
+        "--btn-edit-hover-color": "#000",
+        "--btn-save-color": "#2fa52b",
+        "--btn-save-hover-bg": "#2fa52b",
+        "--btn-save-hover-border": "#84ff80",
+        "--btn-save-hover-color": "#000",
+        "--btn-buy-color": "#2fa52b",
+        "--btn-buy-hover-bg": "#2fa52b",
+        "--btn-buy-hover-border": "#84ff80",
+        "--btn-buy-hover-color": "#000"
+      }
+    }
+  },
+  "documented_readability_adjustments": [
+    {
+      "theme_id": "gold",
+      "token": "buttons.delete.normal.foreground",
+      "reference_or_proposed_value": "#F04848",
+      "implementation_value": "#F14F4F",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "gold",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#FAFAFA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.standard.hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.standard.selected.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.standard.selected_hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.edit.normal.foreground",
+      "reference_or_proposed_value": "#3C5A7A",
+      "implementation_value": "#98A8B9",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.edit.selected.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.edit.selected_hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.delete.selected.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.delete.selected_hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.save.normal.foreground",
+      "reference_or_proposed_value": "#2FA52B",
+      "implementation_value": "#5FBA5C",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.save.selected.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.save.selected_hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.buy.normal.foreground",
+      "reference_or_proposed_value": "#2FA52B",
+      "implementation_value": "#5FBA5C",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.buy.selected.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "steel",
+      "token": "buttons.buy.selected_hover.foreground",
+      "reference_or_proposed_value": "#99CCFF",
+      "implementation_value": "#A4D2FF",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.standard.hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.standard.pressed.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FF9393",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.standard.selected.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.standard.selected_hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.edit.selected.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.edit.selected_hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.delete.selected.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.delete.selected_hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.save.selected.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.save.selected_hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.buy.selected.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "security",
+      "token": "buttons.buy.selected_hover.foreground",
+      "reference_or_proposed_value": "#FF8A8A",
+      "implementation_value": "#FFAAAA",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "forest",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "forest",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "ocean",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "ocean",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "galaxy",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "galaxy",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.edit.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#CCCCCC",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.edit.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#BDBDBD",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.delete.hover.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#C2C2C2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.delete.pressed.foreground",
+      "reference_or_proposed_value": "#000000",
+      "implementation_value": "#B2B2B2",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.save.normal.foreground",
+      "reference_or_proposed_value": "#2FA52B",
+      "implementation_value": "#21751F",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    },
+    {
+      "theme_id": "comfort",
+      "token": "buttons.buy.normal.foreground",
+      "reference_or_proposed_value": "#2FA52B",
+      "implementation_value": "#21751F",
+      "reason": "Preserve hue where possible while reaching 4.5:1 text contrast."
+    }
+  ],
+  "validation": {
+    "json_parse": "passed",
+    "required_theme_names_unique": true,
+    "generated_button_and_pagination_text_pairs": 224,
+    "generated_button_and_pagination_text_contrast": "All checked pairs meet their theme text target, including the specified disabled palette.",
+    "limitations": [
+      "Static opaque token-pair validation only; the target application has not been implemented or tested.",
+      "Audit real UI composition, text scaling, keyboard flow, screen readers, forced colors, focus, charts and other states before claiming accessibility conformance."
+    ],
+    "acceptance_checks": [
+      "All nine mandatory themes appear in the selector under their final names.",
+      "No buttons, borders, dropdowns, dialogs or scrollbars retain unintended framework defaults.",
+      "All component states use theme tokens and are visually distinguishable.",
+      "All mandatory accessibility settings operate independently of the chosen theme.",
+      "Contrast and Contrast Light meet the enhanced text targets in actual rendered states.",
+      "Zoom, text spacing and comfortable controls do not clip or hide information.",
+      "Keyboard focus, assistive technology and operating-system contrast settings remain usable.",
+      "Theme changes and accessibility preferences persist separately."
+    ]
+  },
+  "guidance_sources": [
+    {
+      "topic": "Enhanced text contrast",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html"
+    },
+    {
+      "topic": "Non-text contrast",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+    },
+    {
+      "topic": "Color-independent information, resizing and reflow",
+      "url": "https://www.w3.org/WAI/fundamentals/accessibility-principles/"
+    },
+    {
+      "topic": "Contrast preferences and brightness sensitivity",
+      "url": "https://www.w3.org/WAI/perspectives/contrast.html"
+    },
+    {
+      "topic": "Reduced motion",
+      "url": "https://www.w3.org/WAI/WCAG22/Techniques/css/C39"
+    },
+    {
+      "topic": "System forced colors",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/forced-colors"
+    }
+  ]
+}

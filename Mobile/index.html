@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weeping Angel</title><link rel="icon" href="/assets/angel.ico"><link rel="stylesheet" href="/assets/branding.css">
+<link rel="stylesheet" href="/assets/themes.css"><link rel="stylesheet" href="/assets/mobile.css"><script src="/assets/theme.js"></script>
+<header><div class="brand-line"><span class="brand">Weeping Angel</span><h1 id="page-title" class="visually-hidden">Clips</h1><div id="camera-view-controls" hidden><button id="camera-grid-button">Grid</button><button id="camera-list-button">List</button></div><nav id="clip-sources" class="view-tabs" aria-label="Clip source"><button id="archive">Archive</button><button id="refresh" title="Request USB clips">USB</button></nav></div>
+<section id="pair"><label>Pairing code <input id="code" type="password" autocomplete="off"></label><input id="client-name" placeholder="Device name (optional)" aria-label="Device name"><label><input type="checkbox" id="trust"> Trust this browser for 30 days</label><button id="connect">Connect</button></section>
+<section id="notifications" aria-label="Notifications"><p id="status" role="status" aria-live="polite"></p><p id="archive-notice" role="status" aria-live="polite" hidden></p></section></header>
+<main id="main" hidden><section id="clip-controls" class="controls" aria-label="Clip controls">
+<div class="section-heading"><h2 id="section-title" hidden>Recordings</h2><p id="camera-summary" hidden></p></div><details id="tools"><summary>Filters &amp; actions<span id="selection-summary" role="status"></span></summary><div class="tools-content"><label id="module-label" class="module-label">Sync Module <select id="module" aria-label="Sync Module"></select></label>
+<div class="toolbar"><label>Camera <select id="filter" aria-label="Filter camera name"><option value="">All cameras</option></select></label></div>
+<details id="archive-filters" hidden><summary>Archive filters · camera, day, date range</summary><p id="mode"></p><p id="interaction-hint">Tap a recording to play · use checkboxes to select USB clips</p><div class="archive-fields"><select id="archive-camera" hidden aria-label="Archive camera"><option value="">All cameras</option></select><label>Day<input id="archive-day" placeholder="YYYY.MM.DD" inputmode="decimal" maxlength="10"></label><label>From<input id="archive-from" placeholder="YYYY.MM.DD" inputmode="decimal" maxlength="10"></label><label>Through<input id="archive-to" placeholder="YYYY.MM.DD" inputmode="decimal" maxlength="10"></label><button id="clear-archive">Clear filters</button></div></details>
+<div class="toolbar" id="batch"><label><input type="checkbox" id="all"> Select visible</label><button id="download">Archive &amp; remove USB</button><button id="delete" class="danger">Delete selected from USB</button></div>
+</div></details></section>
+<details id="playback-panel" class="playback" hidden aria-label="Clip player"><summary>Video player <span class="player-hint">· tap to expand/collapse</span></summary><button id="close-playback" class="close-playback" aria-label="Close video player" title="Close video player">×</button><p id="playback-status" aria-live="polite">Tap a recording to play it here.</p><p id="live-record-status" hidden></p><p id="talk-status" hidden role="status"></p><div class="video-stage"><video id="player" controls playsinline preload="metadata" hidden></video><div class="live-overlay"><button id="record-live-button" hidden disabled>Start recording</button><button id="talk" hidden disabled>Hold to talk</button><button id="stop-live" hidden>Stop live view &amp; save recording</button></div></div></details>
+
+
+<div id="clips-table" class="table-scroll" tabindex="0" aria-label="Scrollable clip table"><table id="recordings-table" data-sortable-table><caption>Recordings</caption><thead><tr><th scope="col">Preview</th><th scope="col">Select</th><th scope="col" data-sort-key="camera">Camera</th><th scope="col" data-sort-key="recorded">Recorded</th><th scope="col" data-sort-key="size">Size</th><th scope="col">Actions</th></tr></thead><tbody id="list"></tbody></table></div>
+<div id="camera-table" class="table-scroll" tabindex="0" aria-label="Camera overview" hidden><div id="camera-grid" class="camera-grid"></div><table id="camera-list-table" data-sortable-table><caption>Camera overview</caption><thead><tr><th>Preview</th><th data-sort-key="Name">Name</th><th data-sort-key="Model">Model</th><th data-sort-key="Status">Status</th><th data-sort-key="Battery">Battery</th><th data-sort-key="Motion">Motion</th><th data-sort-key="Camera ID">Camera ID</th><th data-sort-key="Network">Network</th><th>Actions</th></tr></thead><tbody id="camera-list"></tbody></table></div><section id="settings-page" class="settings-page" aria-label="Settings" hidden>
+<h2>Settings</h2><p class="settings-intro">Make Weeping Angel your own.</p>
+<h3 class="settings-group-title">Appearance</h3><div class="settings-group"><div class="theme-grid" aria-label="Choose a theme"></div></div>
+<h3 class="settings-group-title">Video and recordings</h3><div class="settings-group"><button id="recording-settings" class="settings-row"><span><strong>Recording overlays</strong><small>Timestamp, camera name, watermark, position and font</small></span><span class="chevron" aria-hidden="true">›</span></button></div>
+<h3 class="settings-group-title">Accessibility &amp; controls</h3><div class="settings-group preference-fields">
+<label>Text size <select data-preference="text-size"><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+<label><input type="checkbox" data-preference="spacing"> Increased text spacing</label><label><input type="checkbox" data-preference="comfortable"> Comfortable controls</label><label><input type="checkbox" data-preference="clutter"> Reduce visual clutter</label>
+<label>Motion <select data-preference="motion"><option value="system">Follow system</option><option value="reduce">Reduce motion</option></select></label>
+<label>Hold to talk position <select data-preference="talk-side"><option value="right">Right handed</option><option value="left">Left handed</option></select></label></div><h3 class="settings-group-title">Cameras</h3><div class="settings-group"><div id="camera-options" class="camera-options"><label><input type="checkbox" id="camera-auto"> Refresh grid thumbnails every</label><input id="camera-every" aria-label="Refresh interval" type="number" min="1" max="1440" value="5"><select id="camera-unit" aria-label="Refresh unit"><option value="minutes">Minutes</option><option value="hours">Hours</option></select><label><input type="checkbox" id="record-live"> Save live playback to archive</label><button id="update-camera-images">Update all thumbnails</button></div></div>
+<h3 class="settings-group-title">Services & systems</h3><div class="settings-group"><a class="settings-row" href="/management"><span><strong>Services, systems and device settings</strong><small>System arm/disarm, Sync Module status, camera settings and planned providers</small></span><span class="chevron">›</span></a></div><h3 class="settings-group-title">Devices</h3><div class="settings-group"><a class="settings-row" href="/devices"><span><strong>LAN devices</strong><small>Assigned IPs, MAC addresses and parent modules</small></span><span class="chevron" aria-hidden="true">›</span></a></div><h3 class="settings-group-title">Guard Post</h3><div class="settings-group"><a class="settings-row" href="/guard-post"><span><strong>Open Guard Post</strong><small>Camera wall for larger LAN displays</small></span><span class="chevron" aria-hidden="true">›</span></a></div><h3 class="settings-group-title">Connection</h3><div class="settings-group"><a class="settings-row" href="/phone-certificate"><span><strong>Phone microphone certificate</strong><small>Run Secure phone setup in Windows first</small></span><span class="chevron" aria-hidden="true">›</span></a></div>
+<p class="settings-note">Themes and camera preferences are remembered in this browser. Recording overlays are shared with the Windows app.</p></section>
+<nav id="main-navigation" class="bottom-nav" aria-label="Main navigation">
+<button id="cameras" aria-label="Home cameras"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></svg><span>Home</span></button>
+<button id="nav-clips" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m10 8 6 4-6 4Z"/></svg><span>Clips</span></button>
+<button id="nav-settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-1 3-3 1-2 4 2 2v4l4 3 3-1 3 1 4-3v-4l2-2-2-4-3-1-1-3Z"/><circle cx="12" cy="12" r="3"/></svg><span>Settings</span></button></nav></main>
+<script src="/assets/live-player.js"></script><script src="/assets/talk.js"></script><script src="/assets/table-sort.js"></script>
+<script>
+if(!matchMedia('(max-width:700px), (max-height:600px)').matches)document.getElementById('playback-panel').open=true;
+
+if(location.protocol==='file:'){
+document.getElementById('pair').hidden=true;
+document.getElementById('status').textContent='Start WeepingAngel.exe and click Start phone interface. Open the HTTP address displayed in the app (http://127.0.0.1:5187 on this PC). This HTML file cannot connect when opened directly.';
+}else{
+let clipStarting=false;
+let talkSession=null,playbackGeneration=0,pendingRecording=null,archiveRefreshTimer=null,archiveRefreshGeneration=0;
+let liveStatusTimer=null,liveStatusGeneration=0,lastLiveRecording=false,liveController=null,cameraItems=[],liveCamera=null,cameraRefreshing=false,cameraImageVersion=0,cameraMode=false,items=[],archived=false,selected=new Set(),busy=false,loadedModule=null;
+const $=id=>document.getElementById(id);
+let noticeStream,blinkAvailable=true;
+function startNotifications(){if(noticeStream)return;noticeStream=new EventSource('/api/events');noticeStream.onmessage=event=>{try{const notice=JSON.parse(event.data);$('archive-notice').textContent=notice.message;$('archive-notice').hidden=false;}catch{}};noticeStream.onerror=()=>{if(!$('pair').hidden)return;$('archive-notice').textContent='Archive notifications reconnecting…';$('archive-notice').hidden=false;};}
+window.addEventListener('pagehide',()=>{stopPlayback();noticeStream?.close();noticeStream=null;liveController?.stop();});
+const pad=n=>String(n).padStart(2,'0');
+function dateKey(value){const d=new Date(value);return d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate());}
+function formatDate(value){const d=new Date(value);return dateKey(value)+' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());}
+function checkedDate(value){if(!value)return '';if(!/^\d{4}\.\d{2}\.\d{2}$/.test(value)||dateKey(new Date(Number(value.slice(0,4)),Number(value.slice(5,7))-1,Number(value.slice(8,10))))!==value)throw Error('Enter dates as YYYY.MM.DD.');return value;}
+function visibleItems(){let list=items.filter(x=>!$('filter').value||x.camera===$('filter').value);if(!archived)return list;
+ const camera=$('archive-camera').value,day=checkedDate($('archive-day').value.trim()),from=checkedDate($('archive-from').value.trim()),to=checkedDate($('archive-to').value.trim());
+ if(from&&to&&from>to)throw Error('From must be on or before Through.');
+ return list.filter(x=>(!camera||x.camera===camera)&&(!day||dateKey(x.createdUtc)===day)&&(!from||dateKey(x.createdUtc)>=from)&&(!to||dateKey(x.createdUtc)<=to));}
+function populateArchiveCameras(){const current=$('archive-camera').value;const names=[...new Set(items.map(x=>x.camera))].sort();$('archive-camera').replaceChildren();for(const name of ['',...names]){const option=document.createElement('option');option.value=name;option.textContent=name||'All cameras';$('archive-camera').append(option);}if(names.includes(current))$('archive-camera').value=current;}
+for(const id of ['archive-camera','archive-day','archive-from','archive-to'])$(id).addEventListener('input',()=>{if(archived)render();});
+$('clear-archive').onclick=()=>{for(const id of ['archive-camera','archive-day','archive-from','archive-to'])$(id).value='';$('filter').value='';render();};
+async function api(path,body){const r=await fetch(path,{method:body?'POST':'GET',cache:'no-store',headers:body?{'Content-Type':'application/json','X-DontBlink':'1'}:{},body:body?JSON.stringify(body):undefined});if(r.status===401){$('pair').hidden=false;$('main').hidden=true;stopPlayback();throw Error('Pair with the code displayed on the PC.');}
+ const json=r.headers.get('content-type')?.includes('json'),data=json?await r.json():null;
+ if(r.status===424&&data?.code==='blink_auth_required'){blinkAvailable=false;applyBlinkAvailability();if(cameraMode)renderCameras();throw Error(data.error);}
+ if(!r.ok)throw Error(data?.error||'Request failed ('+r.status+'). Check the Windows app.');return data;}
+function applyBlinkAvailability(){
+ for(const id of ['refresh','module','download','delete','update-camera-images'])$(id).disabled=busy||!blinkAvailable;
+ for(const card of document.querySelectorAll('.camera-card')){card.classList.toggle('unavailable',!blinkAvailable);card.setAttribute('aria-disabled',String(!blinkAvailable));card.inert=!blinkAvailable;for(const button of card.querySelectorAll('button'))button.disabled=busy||!blinkAvailable;}
+ for(const row of $('camera-list').children){row.classList.toggle('unavailable',!blinkAvailable);for(const button of row.querySelectorAll('button'))button.disabled=busy||!blinkAvailable;}
+ for(const button of document.querySelectorAll('button[data-video-request]'))button.disabled=busy||!blinkAvailable||button.dataset.supported!=='true'||cameraVideoRequests.has(button.dataset.videoRequest);
+}
+async function loadCameraOverview(){const overview=await api('/api/camera-overview');cameraItems=overview.cameras;blinkAvailable=overview.apiAvailable;renderCameras();$('status').textContent=overview.message||'';}
+async function refreshBlinkSession(){try{const state=await api('/api/blink-session');const changed=blinkAvailable!==state.authenticated;blinkAvailable=state.authenticated;applyBlinkAvailability();if(changed&&cameraMode)await loadCameraOverview();}catch(error){if(!$('main').hidden)$('status').textContent=error.message;}}
+setInterval(()=>{if(document.visibilityState==='visible'&&$('pair').hidden)refreshBlinkSession();},10000);
+async function run(fn){if(busy)return;busy=true;document.querySelectorAll('button:not(#stop-live):not(#close-playback),select:not(#theme)').forEach(x=>x.disabled=true);$('status').textContent='Working… Blink USB requests can take some time.';try{await fn();}catch(e){$('status').textContent=e.message;}finally{busy=false;if($('status').textContent==='Working… Blink USB requests can take some time.')$('status').textContent='';document.querySelectorAll('button,select:not(#theme)').forEach(x=>x.disabled=false);$('talk').disabled=!isSecureContext||!navigator.mediaDevices?.getUserMedia;applyBlinkAvailability();}}
+function setSection(section){
+ $('main').insertBefore($('notifications'),$('main-navigation'));
+ $('settings-page').hidden=section!=='settings';$('tools').hidden=section!=='clips';$('clip-controls').hidden=section==='settings';$('clip-sources').hidden=section!=='clips';$('interaction-hint').hidden=section!=='clips';$('selection-summary').hidden=section!=='clips';
+ $('page-title').textContent=section==='settings'?'Settings':section==='cameras'?'Home':'Clips';$('section-title').textContent='Devices';$('section-title').hidden=section!=='cameras';$('camera-summary').hidden=section!=='cameras';$('camera-view-controls').hidden=section!=='cameras';document.body.dataset.section=section;
+ for(const [id,name] of [['cameras','cameras'],['nav-clips','clips'],['nav-settings','settings']]){if(section===name)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current');}
+}
+function showSettings(){stopPlayback();$('status').textContent='';cameraMode=false;setSection('settings');$('camera-table').hidden=true;$('clips-table').hidden=true;$('playback-panel').hidden=true;}
+$('nav-settings').onclick=showSettings;$('nav-clips').onclick=()=>run(showArchive);
+function selectClip(key,multiple){if(!multiple)selected.clear();selected.add(key);updateSelection();}
+function updateSelection(){
+ for(const row of $('list').querySelectorAll('tr[data-key]')){const active=selected.has(row.dataset.key);row.setAttribute('aria-selected',String(active));const check=row.querySelector('input');if(check)check.checked=active;}
+ const visible=visibleItems();$('all').checked=visible.length>0&&visible.every(x=>selected.has(x.key));$('all').indeterminate=visible.some(x=>selected.has(x.key))&&!$('all').checked;
+ $('selection-summary').textContent=selected.size?selected.size+' selected':'';
+}
+function render(){
+ setSection('clips');$('clips-table').classList.toggle('archive',archived);$('module-label').hidden=archived;
+ cameraMode=false;$('camera-view-controls').hidden=true;$('camera-table').hidden=true;$('clips-table').hidden=false;$('playback-panel').hidden=!$('player').getAttribute('src');$('filter').hidden=false;
+ $('cameras').setAttribute('aria-pressed','false');$('archive').setAttribute('aria-pressed',String(archived));$('refresh').setAttribute('aria-pressed',String(!archived));
+ populateClipFilter();const list=$('list');list.replaceChildren();$('batch').hidden=archived;
+ $('archive-filters').hidden=false;
+ let visible;try{visible=visibleItems();}catch(error){$('mode').textContent=error.message;list.replaceChildren();return;}
+ for(const x of visible){
+  const row=document.createElement('tr');row.dataset.key=x.key;row.tabIndex=0;row.setAttribute('aria-label',x.camera+' '+formatDate(x.createdUtc));row.setAttribute('aria-selected',String(selected.has(x.key)));const preview=document.createElement('td');preview.className='preview';
+ if(archived){const image=document.createElement('img');image.loading='lazy';image.alt='Clip preview';image.src='/thumbnail/'+x.key;const fallback=document.createElement('span');fallback.textContent='Preview unavailable';fallback.hidden=true;image.onerror=()=>{image.hidden=true;fallback.hidden=false;};preview.append(image,fallback);}else preview.textContent='—';
+ const selection=document.createElement('td');selection.className='selection-cell';
+  if(!archived){const check=document.createElement('input');check.type='checkbox';check.checked=selected.has(x.key);check.setAttribute('aria-label','Select '+x.camera);check.onchange=()=>{check.checked?selected.add(x.key):selected.delete(x.key);updateSelection();};selection.append(check);}else selection.textContent='—';
+  const camera=document.createElement('td');camera.className='camera';camera.textContent=x.camera;camera.dataset.sortValue=x.camera;if(archived){const name=document.createElement('span');name.className='filename';name.textContent=x.fileName;camera.append(name);}
+  const recorded=document.createElement('td');recorded.className='recorded';recorded.textContent=formatDate(x.createdUtc);recorded.dataset.sortValue=String(new Date(x.createdUtc).getTime());
+  const size=document.createElement('td');size.className='clip-size';size.dataset.sortValue=String(archived?x.bytes:x.size);size.textContent=archived?(x.bytes/1048576).toFixed(2)+' MB':x.size+' (reported)';if(archived)size.title=x.bytes+' bytes';
+  const actions=document.createElement('td');actions.className='actions';
+  if(archived){const link=document.createElement('a');link.href='/media/'+x.key+'?download=true';link.textContent='Save';link.setAttribute('aria-label','Save '+x.camera+' recording');link.title='Save recording';actions.append(link);}
+  row.onclick=event=>{if(busy||event.detail>1||event.target.closest('a,input,button'))return;selectClip(x.key,event.ctrlKey||event.metaKey);startClip(x,archived,loadedModule);};
+  row.onkeydown=event=>{if(event.target!==row||busy)return;if(event.key==='Enter'){event.preventDefault();selectClip(x.key,false);startClip(x,archived,loadedModule);}else if(event.key===' '){event.preventDefault();selectClip(x.key,event.ctrlKey||event.metaKey);}};
+  row.append(preview,selection,camera,recorded,size,actions);list.append(row);
+ }
+ if(!visible.length){const row=document.createElement('tr');const empty=document.createElement('td');empty.colSpan=6;empty.className='empty';empty.textContent='No clips to display.';row.append(empty);list.append(row);}
+ updateSelection();
+ $('mode').textContent=(archived?'Downloaded archive':'USB manifest')+' · '+visible.length+' of '+items.length+' clips'+(archived?' · '+(visible.reduce((n,x)=>n+x.bytes,0)/1048576).toFixed(1)+' MB · Local time':'');
+}
+async function startClip(x,fromArchive,module){if(clipStarting)return;clipStarting=true;try{await playClip(x,fromArchive,module);}catch(error){$('playback-status').textContent='Could not play this recording: '+error.message;}finally{clipStarting=false;}}
+async function playClip(x,fromArchive,module){
+ stopPlayback(true);
+ const generation=playbackGeneration;stopLiveStatus();$('record-live-button').hidden=true;$('live-record-status').hidden=true;liveController?.stop();liveController=null;liveCamera=null;$('stop-live').hidden=true;const player=$('player');$('playback-panel').hidden=false;$('playback-panel').open=true;if(matchMedia('(max-width:700px), (max-height:600px)').matches)$('tools').open=false;player.hidden=false;
+ $('playback-panel').classList.add('loading');$('playback-panel').setAttribute('aria-busy','true');
+ $('playback-status').textContent='Retrieving '+x.camera+'…'+(!fromArchive?' USB clips can take a little longer to load.':'');
+ try{
+  if(!fromArchive){const result=await api('/api/batch',{moduleId:module,keys:[x.key],delete:false});if(!result[0].success)throw Error(result[0].message);}
+  if(generation!==playbackGeneration)return; player.src='/media/'+x.key;player.hidden=false;
+  $('playback-status').textContent=x.camera+' · '+formatDate(x.createdUtc);
+  try{await player.play();$('status').textContent='';}
+  catch(error){if(error.name!=='NotAllowedError')throw error;$('status').textContent='Recording ready. Tap the triangle in the video player to start playback.';}
+ }catch(error){if(generation!==playbackGeneration)return;$('playback-status').textContent='Could not play this recording: '+error.message;throw error;}
+ finally{if(generation===playbackGeneration){$('playback-panel').classList.remove('loading');$('playback-panel').setAttribute('aria-busy','false');}}
+}
+$('player').addEventListener('error',async()=>{if(!$('player').getAttribute('src'))return;if(liveCamera){let message='Live session failed. Check the Windows app log and any certificate review dialog.';try{const state=await api('/api/live-status/'+liveCamera.networkId+'/'+liveCamera.id);if(state.error)message=state.error;}catch{}$('playback-status').textContent=message;}else $('playback-status').textContent='The browser could not play this clip. Try saving it from the downloaded archive and opening it in a video player.';});
+async function refresh(){stopPlayback();await modules();archived=false;loadedModule=Number($('module').value);if(!loadedModule)throw Error('No Sync Modules returned. Check the Blink login on the PC, then tap Refresh USB clips to retry.');items=await api('/api/clips/'+loadedModule);selected.clear();$('all').checked=false;render();$('status').textContent='USB list refreshed. This list may not include every clip retained on the drive.';}
+async function connect(){await api('/api/pair',{code:$('code').value.trim(),name:$('client-name').value.trim(),trust:$('trust').checked});$('code').value='';$('pair').hidden=true;$('main').hidden=false;startNotifications();await showArchive();}
+async function modules(){const previous=$('module').value;const list=await api('/api/modules');$('module').replaceChildren();for(const m of list){const option=document.createElement('option');option.value=m.id;option.textContent='Module '+m.id+' / network '+m.networkId;$('module').append(option);}if(list.some(m=>String(m.id)===previous))$('module').value=previous;}
+$('recording-settings').onclick=()=>{stopPlayback();location.href='/recording-settings';};
+$('connect').onclick=()=>run(connect);$('refresh').onclick=()=>run(refresh);$('module').onchange=()=>{items=[];selected.clear();render();run(refresh);};$('filter').oninput=()=>{if(!cameraMode)render();};
+function ageText(value){const minutes=Math.max(0,(Date.now()-new Date(value))/60000);return minutes<1?"Just now":minutes<60?Math.floor(minutes)+"m ago":minutes<1440?Math.floor(minutes/60)+"h ago":minutes<525600?Math.floor(minutes/1440)+"d ago":Math.floor(minutes/525600)+"y ago";}
+function cameraImage(camera){const image=document.createElement('img');image.loading='lazy';image.alt='Thumbnail unavailable';image.src='/camera-image/'+camera.networkId+'/'+camera.id+'?v='+cameraImageVersion;return image;}
+const cameraVideoRequests=new Set();
+function cameraActions(camera){
+ const menu=document.createElement('details');menu.className='camera-menu';const toggle=document.createElement('summary');toggle.textContent='…';toggle.setAttribute('aria-label','Camera options for '+camera.name);const options=document.createElement('div');options.className='camera-menu-options';
+ const update=document.createElement('button');update.textContent='Update image';update.onclick=()=>run(async()=>{await updateCamera(camera);renderCameras();});
+ const captureVideo=document.createElement('button');captureVideo.textContent='Request video clip';captureVideo.dataset.videoRequest=camera.networkId+':'+camera.id;captureVideo.dataset.supported=String(!!camera.canRequestVideo);captureVideo.disabled=!blinkAvailable||!camera.canRequestVideo;captureVideo.onclick=async()=>{if(captureVideo.disabled||cameraVideoRequests.has(captureVideo.dataset.videoRequest))return;cameraVideoRequests.add(captureVideo.dataset.videoRequest);captureVideo.disabled=true;menu.open=false;$('status').textContent=camera.name+': requesting video clip…';try{const result=await api('/api/camera-video',{network:camera.networkId,camera:camera.id});$('status').textContent=result.message;}catch(error){$('status').textContent=error.message;}finally{cameraVideoRequests.delete(captureVideo.dataset.videoRequest);applyBlinkAvailability();}};options.append(captureVideo);
+ const motion=document.createElement('button');motion.setAttribute('role','switch');motion.setAttribute('aria-checked',String(camera.motion==='Enabled'));motion.textContent='Motion detection: '+camera.motion;motion.onclick=()=>run(async()=>{await api('/api/camera-motion',{network:camera.networkId,camera:camera.id,enabled:camera.motion!=='Enabled'});cameraItems=await api('/api/cameras');renderCameras();});const settings=document.createElement("a");settings.textContent="Device settings";settings.href="/management?service="+encodeURIComponent(camera.serviceId||"blink")+"&network="+camera.networkId+"&camera="+camera.id;options.append(update,motion,settings);menu.append(toggle,options);return menu;
+}
+function cameraIndicators(camera){const indicators=document.createElement('div');indicators.className='camera-indicators';
+ const battery=document.createElement('span');const level=String(camera.battery).toLowerCase();const color=level==='ok'||level==='good'?'good':level==='low'||level==='bad'?'bad':/^(\d+)%?$/.test(level)?(parseInt(level)>50?'good':parseInt(level)>20?'warning':'bad'):'unknown';battery.className='battery-indicator '+color;battery.setAttribute('role','img');battery.setAttribute('aria-label','Battery '+camera.battery);battery.title='Battery '+camera.battery;battery.innerHTML='<svg viewBox="0 0 28 16" aria-hidden="true"><rect x="1" y="2" width="23" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M26 5v6" stroke="currentColor" stroke-width="2"/><rect x="4" y="5" width="'+(color==='good'?17:color==='warning'?10:color==='bad'?4:0)+'" height="6" fill="currentColor"/></svg>';
+ const motion=document.createElement('span');motion.className='motion-indicator '+(camera.motion==='Enabled'?'good':camera.motion==='Disabled'?'bad':'unknown');motion.setAttribute('role','img');motion.setAttribute('aria-label','Motion '+camera.motion);motion.title='Motion '+camera.motion;motion.textContent=camera.motion==='Enabled'?'✓':camera.motion==='Disabled'?'×':'?';indicators.append(battery,motion);return indicators;}
+function renderCameras(){
+ setSection('cameras');
+ cameraMode=true;$('camera-table').hidden=false;$('clips-table').hidden=true;$('batch').hidden=true;$('filter').hidden=true;$('archive-filters').hidden=true;$('camera-view-controls').hidden=false;
+ $('playback-panel').hidden=!liveCamera;
+ $('cameras').setAttribute('aria-pressed','true');$('archive').setAttribute('aria-pressed','false');$('refresh').setAttribute('aria-pressed','false');
+ const grid=cameraPreference('view','grid')==='grid';$('camera-grid-button').setAttribute('aria-pressed',String(grid));$('camera-list-button').setAttribute('aria-pressed',String(!grid));$('camera-grid').hidden=!grid;$('camera-list-table').hidden=grid;
+ const cards=$('camera-grid'),list=$('camera-list');cards.replaceChildren();list.replaceChildren();
+ for(const camera of cameraItems){
+  const card=document.createElement('article');card.className='camera-card';const title=document.createElement('h3');title.textContent=camera.name;const details=document.createElement('p');details.textContent=camera.status;details.className='camera-status';
+  const cardPreview=document.createElement('button');cardPreview.className='camera-preview';cardPreview.setAttribute('aria-label','Open live view for '+camera.name);const play=document.createElement('span');play.textContent='▶';play.setAttribute('aria-hidden','true');const age=document.createElement("small");age.className="thumbnail-age";age.textContent=(camera.thumbnailTimeEstimated?"~ ":"")+(camera.thumbnailCapturedUtc?ageText(camera.thumbnailCapturedUtc):"Age unknown");age.title=camera.thumbnailTimeEstimated?"Approximate age from the last successful capture completion":"Thumbnail capture time reported by Blink";cardPreview.append(cameraImage(camera),play,age);cardPreview.onclick=()=>run(()=>openLive(camera));const footer=document.createElement('div');footer.className='camera-footer';footer.append(cameraActions(camera),details,cameraIndicators(camera));card.append(title,cardPreview,footer);cards.append(card);
+  const row=document.createElement('tr'),preview=document.createElement('td'),image=cameraImage(camera);image.className='camera-list-image';preview.append(image);row.append(preview);
+  for(const value of [camera.name,camera.model,camera.status,camera.battery,camera.motion,camera.id,camera.networkId]){const cell=document.createElement('td');cell.textContent=value;row.append(cell);}const actions=document.createElement('td');actions.append(cameraActions(camera));row.append(actions);list.append(row);
+ }
+ if(!cameraItems.length){const empty=document.createElement('p');empty.className='camera-empty';empty.textContent='No camera details returned. Check the Windows app login.';cards.append(empty);}
+ $('camera-summary').textContent='Cameras · '+cameraItems.length+(blinkAvailable?' · Snapshot previews':' · Blink sign-in required');applyBlinkAvailability();
+}
+function cameraPreference(key,fallback){try{return localStorage.getItem('dontblink-camera-'+key)??fallback;}catch{return fallback;}}
+function saveCameraPreference(key,value){try{localStorage.setItem('dontblink-camera-'+key,value);}catch{}}
+$('camera-auto').checked=cameraPreference('auto','false')==='true';$('camera-every').value=cameraPreference('every','5');$('camera-unit').value=cameraPreference('unit','minutes');$('record-live').checked=cameraPreference('record','false')==='true';
+for(const [id,key] of [['camera-auto','auto'],['camera-every','every'],['camera-unit','unit'],['record-live','record']])$(id).onchange=()=>saveCameraPreference(key,$(id).type==='checkbox'?String($(id).checked):$(id).value);
+$('camera-grid-button').onclick=()=>{saveCameraPreference('view','grid');renderCameras();};$('camera-list-button').onclick=()=>{saveCameraPreference('view','list');renderCameras();};
+async function updateCamera(camera){if(liveCamera&&liveCamera.id===camera.id&&liveCamera.networkId===camera.networkId)return;await api('/api/camera-refresh',{network:camera.networkId,camera:camera.id});cameraImageVersion++;}
+async function updateAllCameras(){if(!cameraItems.length)cameraItems=await api('/api/cameras');for(const camera of cameraItems)await updateCamera(camera);if(cameraMode)renderCameras();}
+$('update-camera-images').onclick=()=>run(async()=>{await updateAllCameras();$('status').textContent='Camera thumbnails updated.';});
+let nextCameraRefresh=Date.now();setInterval(async()=>{if(!cameraMode||cameraPreference('view','grid')!=='grid'||!$('camera-auto').checked||document.visibilityState!=='visible'||cameraRefreshing||busy||Date.now()<nextCameraRefresh)return;cameraRefreshing=true;try{await updateAllCameras();}catch(error){$('status').textContent=error.message;}finally{cameraRefreshing=false;const count=Math.max(1,Math.min(1440,Number($('camera-every').value)||5));nextCameraRefresh=Date.now()+count*($('camera-unit').value==='hours'?3600000:60000);}},15000);
+DontBlinkTalk.bind($('talk'),$('talk-status'),()=>liveCamera?{network:liveCamera.networkId,camera:liveCamera.id,session:talkSession}:null,$('player'));
+$('close-playback').onclick=()=>{stopPlayback();$('status').textContent='';};
+function stopPlayback(keepPanel=false){ if(liveCamera){pendingRecording={...liveCamera};scheduleArchiveRefresh();}playbackGeneration++;$('playback-panel').classList.remove('live-view');$('playback-panel').hidden=!keepPanel;$('playback-panel').classList.remove('loading');$('playback-panel').setAttribute('aria-busy','false'); $('talk').hidden=true;$('talk-status').hidden=true;stopLiveStatus();liveController?.stop();liveController=null;liveCamera=null;const video=$('player');video.pause();video.removeAttribute('src');video.load();video.hidden=!keepPanel;if(!keepPanel)$('playback-panel').open=false;$('stop-live').hidden=true;$('record-live-button').hidden=true;$('live-record-status').hidden=true;window.DontBlinkTalk?.stop();}
+function stopLiveStatus(){clearInterval(liveStatusTimer);liveStatusTimer=null;liveStatusGeneration++;}
+function watchLiveStatus(camera){
+ stopLiveStatus();const generation=liveStatusGeneration;let wasActive=false;
+ async function update(){if(generation!==liveStatusGeneration)return;try{const status=await api('/api/live-status/'+camera.networkId+'/'+camera.id);if(generation!==liveStatusGeneration)return;wasActive=wasActive||status.active;lastLiveRecording=status.recording;if(status.recordingError)$('status').textContent=status.recordingError;$('record-live-button').setAttribute('aria-pressed',String(status.recording));$('record-live-button').disabled=!status.canRecord||status.finalizing;setLiveIcon('record-live-button',status.recording?'save':'record',status.recording?'Stop recording and save':'Start recording');$('record-live-button').classList.toggle('recording',status.recording);$('live-record-status').textContent=status.recordingError||(status.finalizing?'Finalizing recording and overlays…':status.recording?'RECORDING to the configured archive':status.savedFile?'Saved: '+status.savedFile:'Not recording');if(wasActive&&!status.active){DontBlinkTalk.stop();clearInterval(liveStatusTimer);liveStatusTimer=null;}}catch{}}
+ update();liveStatusTimer=setInterval(update,1500);
+}
+$('record-live-button').onclick=async()=>{if(!liveCamera)return;const camera=liveCamera;$('record-live-button').disabled=true;try{const status=await api('/api/live-record',{network:camera.networkId,camera:camera.id,recording:!lastLiveRecording});lastLiveRecording=status.recording;$('record-live-button').setAttribute('aria-pressed',String(status.recording));if(!status.recording&&status.savedFile){pendingRecording={...camera};scheduleArchiveRefresh();}$('live-record-status').textContent=status.error||(status.recording?'RECORDING to the configured archive':status.savedFile?'Saved: '+status.savedFile:'Not recording');}catch(error){$('live-record-status').textContent=error.message;}};
+async function openLive(camera){
+ if(!blinkAvailable)throw Error('Sign in to Blink in Windows to use live view. Archive videos remain available.');
+ stopPlayback();$('playback-panel').classList.add('live-view');talkSession=DontBlinkTalk.nonce();$('talk').hidden=false;$('talk-status').hidden=false;
+ liveController?.stop();liveController=null;
+ const player=$('player');player.pause();player.removeAttribute('src');player.load();liveCamera=camera;$('record-live-button').hidden=false;$('live-record-status').hidden=false;$('live-record-status').textContent='Waiting for live session…';$('playback-panel').hidden=false;$('playback-panel').open=true;$('stop-live').hidden=false;setLiveIcon('stop-live','stop','Stop live view');setLiveIcon('talk','mic','Hold to talk');$('talk').setAttribute('aria-describedby','talk-status');setLiveIcon('record-live-button','record','Start recording');$('tools').open=false;player.hidden=false;
+ const diagnose=message=>{api('/api/live-client-log',{camera:camera.id,message}).catch(()=>{});};
+ liveController=DontBlinkLive.start(player,'/api/live/'+camera.networkId+'/'+camera.id+'?record='+$('record-live').checked+'&session='+talkSession,{
+  status:message=>{$('playback-status').textContent=camera.name+' · '+message;},diagnostic:diagnose,
+  error:error=>{DontBlinkTalk.stop();$('status').textContent='Live player: '+error.message;}
+ });
+ watchLiveStatus(camera);$('status').textContent='';
+ liveController.ready.then(()=>{$('status').textContent='';}).catch(error=>{if(error.name!=='AbortError')$('status').textContent='Live player: '+error.message;});
+}
+$('player').addEventListener('ended',()=>{DontBlinkTalk.stop();if(liveCamera){pendingRecording={...liveCamera};scheduleArchiveRefresh();liveCamera=null;$('stop-live').hidden=true;$('playback-status').textContent='Live session ended. Any recording will be finalized in the archive.';}});
+$('stop-live').onclick=()=>{stopPlayback();liveController?.stop();liveController=null;const player=$('player');player.pause();player.removeAttribute('src');player.load();player.hidden=true;liveCamera=null;$('record-live-button').hidden=true;$('stop-live').hidden=true;$('playback-panel').open=false;$('playback-status').textContent='Live view stopped. Any recording will be finalized in the archive.';};
+$('cameras').onclick=()=>run(async()=>{stopPlayback();await loadCameraOverview();});
+async function showArchive(){stopPlayback();archived=true;items=await api('/api/archive');populateArchiveCameras();selected.clear();render();$('status').textContent='';if(pendingRecording)scheduleArchiveRefresh();}
+function populateClipFilter(){const current=$('filter').value;$('filter').replaceChildren();for(const name of ['',...new Set(items.map(x=>x.camera).sort())]){const option=document.createElement('option');option.value=name;option.textContent=name||'All cameras';$('filter').append(option);}$('filter').value=[...$('filter').options].some(x=>x.value===current)?current:'';}
+function scheduleArchiveRefresh(){clearTimeout(archiveRefreshTimer);const generation=++archiveRefreshGeneration;let attempts=0;const camera=pendingRecording;
+ const refresh=async()=>{if(generation!==archiveRefreshGeneration)return;try{const state=camera?await api('/api/live-status/'+camera.networkId+'/'+camera.id):null;if(generation!==archiveRefreshGeneration)return;
+ if(document.body.dataset.section==='clips'&&archived){const fresh=await api('/api/archive');if(generation!==archiveRefreshGeneration||document.body.dataset.section!=='clips'||!archived)return;items=fresh;populateArchiveCameras();render();}
+ if(!state||(!state.active&&!state.finalizing)){pendingRecording=null;if(state?.recordingError)$('status').textContent=state.recordingError;return;}
+ }catch(error){$('status').textContent=error.message;}if(++attempts<90)archiveRefreshTimer=setTimeout(refresh,1000);else $('status').textContent='The recording is still finalizing. Open Clips again to check for the saved video.';};archiveRefreshTimer=setTimeout(refresh,300);
+}
+function setLiveIcon(id,icon,label){const paths={mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8"/>',record:'<circle cx="12" cy="12" r="7" fill="currentColor"/>',save:'<rect x="6" y="6" width="12" height="12" rx="2"/>',stop:'<rect x="6" y="6" width="12" height="12" fill="currentColor"/>'};const button=$(id);button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+paths[icon]+'</svg>';button.setAttribute('aria-label',label);button.title=label;}
+
+$('archive').onclick=()=>run(showArchive);
+$('all').onchange=()=>{for(const x of visibleItems())$('all').checked?selected.add(x.key):selected.delete(x.key);updateSelection();};
+async function batch(del){if(!selected.size)throw Error('Select at least one clip.');if(del&&!confirm('Permanently delete '+selected.size+' clips from the Sync Module USB drive? Downloaded copies are kept.')){$('status').textContent='Deletion cancelled.';return;}const result=await api('/api/batch',{moduleId:loadedModule,keys:[...selected],delete:del,archiveAndRemove:!del});const failed=result.filter(x=>!x.success);const summary=(result.length-failed.length)+' succeeded, '+failed.length+' failed.'+(failed.length?'\n'+failed.map(x=>x.message).join('\n'):'');await refresh();$('status').textContent=summary;}
+$('download').onclick=()=>run(()=>batch(false));$('delete').onclick=()=>run(()=>batch(true));
+// Archive first; USB and camera discovery are explicit navigation requests.
+run(async()=>{await showArchive();$('pair').hidden=true;$('main').hidden=false;startNotifications();refreshBlinkSession();if(location.hash==='#settings')showSettings();});
+}
+</script></html>
+

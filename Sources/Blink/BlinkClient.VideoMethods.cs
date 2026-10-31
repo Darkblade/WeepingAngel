@@ -1,0 +1,417 @@
+using System;
+using System.Linq;
+using Blink.Models;
+using System.Net.Http;
+using System.Globalization;
+using Blink.Exceptions;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace Blink
+{
+    public partial class BlinkClient
+    {
+        /// <summary>
+        /// Get videos from specified module. Get modules from <see cref="GetDashboardAsync"/> method - <see cref="Dashboard.SyncModules"/>.
+        /// </summary>
+        /// <returns>Collection of <see cref="BlinkVideoInfo"/> objects with video data</returns>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        /// <exception cref="BlinkClientException">Thrown when failed to get videos</exception>
+        public async Task<IEnumerable<BlinkVideoInfo>> GetVideosFromModuleAsync(SyncModule module)
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+
+            string manifestRequestUrl = $"/api/v1/accounts/{_accountId}/networks/{module.NetworkId}/" +
+                $"sync_modules/{module.Id}/local_storage/manifest/request";
+            await Task.Delay(GeneralSleepTime); // I don't know why, but their server returns empty response without this delay
+            var httpClient = await GetHttpClientAsync();
+            var result = await httpClient.PostAsync(manifestRequestUrl, null);
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new BlinkClientException("Failed to get videos - " + result.ReasonPhrase);
+            }
+
+            var manifestData = await result.Content.ReadFromJsonAsync<ManifestData>()
+                ?? throw new BlinkClientException("Failed to get videos - no content");
+            bool commandCompleted = await WaitForCommandCompletionAsync(httpClient, module.NetworkId, manifestData.Id);
+            if (!commandCompleted)
+            {
+                throw new BlinkClientException($"Failed to get videos - manifest request {manifestData.Id} did not complete");
+            }
+
+            string manifestUrl = manifestRequestUrl + $"/{manifestData.Id}";
+            await Task.Delay(GeneralSleepTime); // I don't know why, but their server returns empty response without this delay
+            var response = await httpClient.GetAsync(manifestUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                string error = await response.Content.ReadAsStringAsync();
+                throw new BlinkClientException($"Failed to get videos - {response.ReasonPhrase} - {error}");
+            }
+
+            var videoResponse = await response.Content.ReadFromJsonAsync<VideoResponse>()
+                ?? throw new BlinkClientException("Failed to get videos - no content");
+            foreach (var video in videoResponse.Videos)
+            {
+                video.NetworkId = module.NetworkId;
+                video.ModuleId = module.Id;
+                video.ManifestId = videoResponse.ManifestId;
+            }
+            return videoResponse.Videos;
+        }
+
+        /// <summary>
+        /// Get videos from single module (the first one in the dashboard). Throws exception if more than one module found.
+        /// </summary>
+        /// <returns>Collection of <see cref="BlinkVideoInfo"/> objects with video data</returns>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        /// <exception cref="BlinkClientException">Thrown when failed to get videos</exception>
+        /// <exception cref="BlinkClientException">Thrown when more than one module found</exception>
+        public async Task<IEnumerable<BlinkVideoInfo>> GetVideosFromSingleModuleAsync()
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+            var dashboard = await GetDashboardAsync();
+            if (dashboard.SyncModules.Length > 1)
+            {
+                throw new BlinkClientException("More than one sync module found. Use GetVideosFromModuleAsync(SyncModule module) instead.");
+            }
+            var module = dashboard.SyncModules.SingleOrDefault()
+                ?? throw new BlinkClientException("No sync modules found");
+            return await GetVideosFromModuleAsync(module);
+        }
+
+        /// <summary>
+        /// Get cloud clip metadata from Blink cloud storage.
+        /// </summary>
+        /// <param name="sinceUtc">Optional UTC timestamp to fetch clips changed since that time. If null, requests clips from Unix epoch.</param>
+        /// <param name="maxPages">Maximum number of pages to request from cloud media endpoint.</param>
+        /// <param name="includeDeleted">If true, includes clips marked as deleted by API.</param>
+        /// <returns>Collection of <see cref="CloudClipInfo"/> objects with cloud clip metadata.</returns>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        /// <exception cref="BlinkClientException">Thrown when failed to get cloud clips</exception>
+        public async Task<IEnumerable<CloudClipInfo>> GetCloudVideosAsync(DateTime? sinceUtc = null, int maxPages = 10, bool includeDeleted = false)
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+
+            if (maxPages <= 0)
+            {
+                throw new BlinkClientException("maxPages must be greater than 0");
+            }
+
+            var httpClient = await GetHttpClientAsync();
+            string sinceTimestamp = Uri.EscapeDataString(ToBlinkTimestamp(sinceUtc));
+            var clips = new List<CloudClipInfo>();
+
+            for (int page = 1; page <= maxPages; page++)
+            {
+                string url = $"/api/v1/accounts/{_accountId}/media/changed?since={sinceTimestamp}&page={page}";
+                var response = await httpClient.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new BlinkClientException($"Failed to get cloud clips - {response.ReasonPhrase} - {error}");
+                }
+
+                var resultPage = await response.Content.ReadFromJsonAsync<CloudClipPage>()
+                    ?? throw new BlinkClientException("Failed to get cloud clips - no content");
+                if (resultPage.Clips.Length == 0)
+                {
+                    break;
+                }
+
+                foreach (var clip in resultPage.Clips)
+                {
+                    if (!includeDeleted && clip.IsDeleted)
+                    {
+                        continue;
+                    }
+
+                    NormalizeCloudMediaUrl(httpClient, clip);
+                    clips.Add(clip);
+                }
+            }
+
+            return clips;
+        }
+
+        /// <summary>
+        /// Download cloud clip as bytes.
+        /// </summary>
+        /// <param name="video"><see cref="CloudClipInfo"/> object with cloud clip metadata</param>
+        /// <returns>Video bytes</returns>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        /// <exception cref="BlinkClientException">Thrown when cloud clip data is not valid</exception>
+        public async Task<byte[]> GetCloudVideoBytesAsync(CloudClipInfo video)
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+
+            if (video == null || string.IsNullOrWhiteSpace(video.MediaUrl))
+            {
+                throw new BlinkClientException("Cloud clip data is not valid");
+            }
+
+            var httpClient = await GetHttpClientAsync();
+            Uri mediaUri = ResolveCloudMediaUri(httpClient, video.MediaUrl);
+            var response = await httpClient.GetAsync(mediaUri);
+            if (!response.IsSuccessStatusCode)
+            {
+                string error = await response.Content.ReadAsStringAsync();
+                throw new BlinkClientException($"Failed to download cloud clip - {response.ReasonPhrase} - {error}");
+            }
+
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+
+        /// <summary>
+        /// Get video file as byte array.
+        /// </summary>
+        /// <param name="video"><see cref="BlinkVideoInfo"/> object with video data</param>
+        /// <param name="tryCount">Number of tries to get video</param>
+        /// <returns>Video as byte array</returns>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        /// <exception cref="BlinkClientException">Thrown when video data is not valid. Please create an issue if you see this error.</exception>
+        public async Task<byte[]> GetVideoBytesAsync(BlinkVideoInfo video, int tryCount = 5)
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+            ValidateLocalVideoData(video);
+
+            string url = BuildLocalVideoRequestUrl(video);
+            var httpClient = await GetHttpClientAsync();
+            var (videoBytes, contentType, response) = await TryDownloadLocalVideoAsync(httpClient, video, url, tryCount);
+            if (videoBytes != null)
+            {
+                return videoBytes;
+            }
+
+            string responseContent = await ReadResponseContentSafeAsync(response);
+            throw new BlinkClientException($"Failed to get video {video.Id}, contentType {contentType} - {response?.ReasonPhrase ?? "Unknown Error"}. " +
+                $"Please create an issue if you see this error. Content: " + responseContent);
+        }
+
+        public async Task<byte[]> GetVideoBytesWithProgressAsync(BlinkVideoInfo video,Action<long,long?>? progress,System.Threading.CancellationToken ct)
+        {
+            if(_accountId==null)throw new BlinkClientException("Not authorized");ValidateLocalVideoData(video);
+            var result=await TryDownloadLocalVideoAsync(await GetHttpClientAsync(),video,BuildLocalVideoRequestUrl(video),5,progress,ct);
+            if(result.VideoBytes!=null)return result.VideoBytes;throw new BlinkClientException("Video download did not complete; USB original retained.");
+        }
+        private static void ValidateLocalVideoData(BlinkVideoInfo video)
+        {
+            if (video.NetworkId == 0 || video.ModuleId == 0 || string.IsNullOrWhiteSpace(video.ManifestId))
+            {
+                throw new BlinkClientException("Video data is not valid");
+            }
+        }
+
+        private string BuildLocalVideoRequestUrl(BlinkVideoInfo video)
+        {
+            return $"/api/v1/accounts/{_accountId}/networks/{video.NetworkId}/" +
+                $"sync_modules/{video.ModuleId}/local_storage/manifest/{video.ManifestId}/clip/request/{video.Id}";
+        }
+
+        private async Task<(byte[]? VideoBytes, string ContentType, HttpResponseMessage? LastResponse)> TryDownloadLocalVideoAsync(
+            HttpClient httpClient,
+            BlinkVideoInfo video,
+            string url,
+            int tryCount,Action<long,long?>? progress=null,System.Threading.CancellationToken ct=default)
+        {
+            string contentType = string.Empty;
+            HttpResponseMessage? response = null;
+
+            for (int attempt = 0; attempt < tryCount; attempt++)
+            {
+                await Task.Delay(GeneralSleepTime,ct);
+
+                response = await RequestLocalVideoClipAsync(httpClient, video.NetworkId, url,ct);
+                if (response == null)
+                {
+                    continue;
+                }
+
+                contentType = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+                if (contentType.StartsWith("video/", StringComparison.Ordinal))
+                {
+                    using var input=await response.Content.ReadAsStreamAsync();using var output=new System.IO.MemoryStream();byte[] buffer=new byte[65536];long? total=response.Content.Headers.ContentLength;progress?.Invoke(0,total);
+                    int read;while((read=await input.ReadAsync(buffer.AsMemory(),ct))>0){await output.WriteAsync(buffer.AsMemory(0,read),ct);progress?.Invoke(output.Length,total);}return (output.ToArray(),contentType,response);
+                }
+            }
+
+            return (null, contentType, response);
+        }
+
+        private async Task<HttpResponseMessage?> RequestLocalVideoClipAsync(HttpClient httpClient, int networkId, string url,System.Threading.CancellationToken ct=default)
+        {
+            var requestResponse = await httpClient.PostAsync(url, null,ct);
+            if (!requestResponse.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            bool commandCompleted = await WaitForClipRequestCompletionAsync(httpClient, networkId, requestResponse);
+            if (!commandCompleted)
+            {
+                return null;
+            }
+
+            ct.ThrowIfCancellationRequested();var response = await httpClient.GetAsync(url,HttpCompletionOption.ResponseHeadersRead,ct);
+            return response.IsSuccessStatusCode ? response : null;
+        }
+
+        private async Task<bool> WaitForClipRequestCompletionAsync(HttpClient httpClient, int networkId, HttpResponseMessage requestResponse)
+        {
+            var requestInfo = await requestResponse.Content.ReadFromJsonAsync<ManifestData>();
+            if (requestInfo == null)
+            {
+                return true;
+            }
+
+            return await WaitForCommandCompletionAsync(httpClient, networkId, requestInfo.Id);
+        }
+
+        private static async Task<string> ReadResponseContentSafeAsync(HttpResponseMessage? response)
+        {
+            if (response == null)
+            {
+                return "No response";
+            }
+
+            try
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return "Failed to read response content: " + ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// Delete video from Blink camera.
+        /// </summary>
+        /// <param name="video"><see cref="BlinkVideoInfo"/> object with video data</param>
+        /// <exception cref="BlinkClientException">Thrown when not authorized</exception>
+        public async Task DeleteVideoAsync(BlinkVideoInfo video)
+        {
+            if (_accountId == null)
+            {
+                throw new BlinkClientException("Not authorized");
+            }
+
+            if (video.NetworkId == 0 || video.ModuleId == 0 || string.IsNullOrWhiteSpace(video.ManifestId))
+            {
+                throw new BlinkClientException("Video data is not valid");
+            }
+            string url = $"/api/v1/accounts/{_accountId}/networks/{video.NetworkId}/" +
+                $"sync_modules/{video.ModuleId}/local_storage/manifest/{video.ManifestId}/clip/delete/{video.Id}";
+            var httpClient = await GetHttpClientAsync();
+            await Task.Delay(GeneralSleepTime);
+            var result = await httpClient.PostAsync(url, null);
+            if (!result.IsSuccessStatusCode)
+            {
+                string error = await result.Content.ReadAsStringAsync();
+                throw new BlinkClientException($"Failed to delete video {video.Id} - {result.ReasonPhrase} - {error}");
+            }
+
+            var requestInfo = await result.Content.ReadFromJsonAsync<ManifestData>();
+            if (requestInfo != null)
+            {
+                bool commandCompleted = await WaitForCommandCompletionAsync(httpClient, video.NetworkId, requestInfo.Id);
+                if (!commandCompleted)
+                {
+                    throw new BlinkClientException($"Failed to delete video {video.Id} - command did not complete");
+                }
+            }
+
+            result.EnsureSuccessStatusCode();
+        }
+
+        private static string ToBlinkTimestamp(DateTime? value)
+        {
+            DateTime utc = value.HasValue ? NormalizeUtc(value.Value) : DateTime.UnixEpoch;
+            return utc.ToString("yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture) + "+0000";
+        }
+
+        private static DateTime NormalizeUtc(DateTime value)
+        {
+            return value.Kind switch
+            {
+                DateTimeKind.Utc => value,
+                DateTimeKind.Unspecified => DateTime.SpecifyKind(value, DateTimeKind.Utc),
+                _ => value.ToUniversalTime(),
+            };
+        }
+
+        private static void NormalizeCloudMediaUrl(HttpClient httpClient, CloudClipInfo clip)
+        {
+            if (string.IsNullOrWhiteSpace(clip.MediaUrl) || httpClient.BaseAddress == null)
+            {
+                return;
+            }
+
+            if (Uri.TryCreate(clip.MediaUrl, UriKind.Absolute, out _))
+            {
+                return;
+            }
+
+            clip.MediaUrl = new Uri(httpClient.BaseAddress, clip.MediaUrl).ToString();
+        }
+
+        private static Uri ResolveCloudMediaUri(HttpClient httpClient, string mediaUrl)
+        {
+            if (Uri.TryCreate(mediaUrl, UriKind.Absolute, out var absoluteUri))
+            {
+                return absoluteUri;
+            }
+
+            if (httpClient.BaseAddress == null)
+            {
+                throw new BlinkClientException("Cloud clip URL is not absolute and base address is unavailable");
+            }
+
+            return new Uri(httpClient.BaseAddress, mediaUrl);
+        }
+
+        private async Task<bool> WaitForCommandCompletionAsync(HttpClient httpClient, int networkId, long commandId, int maxRetry = 120)
+        {
+            string commandStatusUrl = $"/network/{networkId}/command/{commandId}";
+            for (int attempt = 0; attempt < maxRetry; attempt++)
+            {
+                var response = await httpClient.GetAsync(commandStatusUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var commandStatus = await response.Content.ReadFromJsonAsync<CommandStatus>();
+                    if (commandStatus != null)
+                    {
+                        if (commandStatus.StatusCode != 908)
+                        {
+                            return false;
+                        }
+
+                        if (commandStatus.Complete)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                await Task.Delay(1000);
+            }
+
+            return false;
+        }
+    }
+}

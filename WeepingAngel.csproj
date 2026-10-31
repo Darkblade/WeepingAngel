@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Assets\Branding\app.ico</ApplicationIcon>
+    <AssemblyName>WeepingAngel</AssemblyName>
+    <RootNamespace>DontBlink</RootNamespace>
+    <Product>Weeping Angel</Product>
+    <Title>Weeping Angel</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DontBlink.Checks" />
+    <Compile Remove="Sources\**\*.cs;Tests\**\*.cs" />
+    <ProjectReference Include="Sources\Blink\Blink.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <EmbeddedResource Include="Mobile\*.html;Mobile\*.js;Mobile\*.css" />
+    <EmbeddedResource Include="ThemeTokens.json" />
+    <EmbeddedResource Include="Assets\Branding\*;Assets\Fonts\*.ttf" />
+    <Content Include="Assets\Fonts\OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Security\immis_ca.pem" />
+    <Content Include="Security\NOTICE.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Security\PTT-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="tools\ffmpeg\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
+  </ItemGroup>
+
+</Project>

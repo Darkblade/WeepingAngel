@@ -1,0 +1,30 @@
+using System.Buffers.Binary;
+using System.Net;
+using DontBlink.Services;
+internal static class LiveActivityChecks
+{
+    public static async Task RunAsync(string root)
+    {
+        var registry=new DeviceRegistry(Path.Combine(root,"activity-devices.json"));var devices=registry.List();var camera=devices.Single(d=>d.Type=="blink-outdoor-3");var hub=devices.Single(d=>d.Type=="blink-sync-2");
+        registry.LinkCamera(camera.Id,"blink",2,3);Check(new DeviceRegistry(Path.Combine(root,"activity-devices.json")).ActivityLinks().Single().CameraId==3,"activity camera binding survives restart");
+        string path=Path.Combine(root,"growing.crdownload");await using var writer=new FileStream(path,FileMode.Create,FileAccess.Write,FileShare.ReadWrite|FileShare.Delete);await writer.WriteAsync(Header());await writer.WriteAsync(Packet(camera,hub,60000,2,10,0));await writer.WriteAsync(Packet(camera,hub,60000,0x12,100,0,true));await writer.WriteAsync(Packet(camera,hub,60000,0x18,11,40000));await writer.FlushAsync();
+        await using var follower=new LiveActivityFollower(registry.List);await follower.StartAsync(path);await Task.Delay(200);Check(follower.Snapshot().Activities.Length==0,"attaching to a capture ignores existing historical activity");
+        async Task Append(byte[] bytes){await writer.WriteAsync(bytes);await writer.FlushAsync();}
+        await Append(Packet(camera,hub,60001,2,0xfffffff0,0));await Append(Packet(camera,hub,60001,0x12,100,0,true));await Append(Packet(camera,hub,60001,0x18,0xfffffff1,20000));await Wait(()=>follower.Snapshot().Activities.Any(a=>a.ObservedBytes==20000));Check(!follower.Snapshot().Activities.Any(a=>a.Pulsing),"handshake and small transfers do not trigger recording pulse");
+        byte[] next=Packet(camera,hub,60001,0x18,unchecked(0xfffffff1u+20000),20000);await Append(next[..18]);await Task.Delay(200);Check(follower.Snapshot().Activities.Single().ObservedBytes==20000,"partial packet writes wait for completion");await Append(next[18..]);await Wait(()=>follower.Snapshot().Activities.Any(a=>a.Pulsing));Check(follower.Snapshot().Activities.Single().ObservedBytes==40000,"threshold handles TCP sequence wrap without losing bytes");
+        await Append(next);await Task.Delay(200);Check(follower.Snapshot().Activities.Single().ObservedBytes==40000,"live classifier deduplicates retransmitted payload");await Append(Packet(camera,hub,60001,0x14,0,0,true));await Wait(()=>!follower.Snapshot().Activities.Single().Pulsing);Check(true,"connection close immediately ends live pulse");
+        await Append(Packet(camera,hub,60002,2,100,0));await Append(Packet(camera,hub,60002,0x14,0,0,true));await Wait(()=>follower.Snapshot().Activities.Any(a=>a.State=="Connection refused"));Check(!follower.Snapshot().Activities.Any(a=>a.Pulsing),"refused connections are distinct from recording activity");
+        var wrong=camera with{MacAddress="74:AB:93:00:00:01"};await Append(Packet(wrong,hub,60003,2,100,0));await Task.Delay(200);Check(follower.Snapshot().Activities.Length==2,"live capture requires both configured IP and MAC identity");
+        await Append(Packet(camera,hub,60004,2,100,0,old:true));await Task.Delay(200);Check(follower.Snapshot().Activities.Length==2,"stale packet timestamps cannot create live activity");
+        string renamed=Path.Combine(root,"completed.eth");File.Move(path,renamed);await Append(Packet(camera,hub,60005,2,100,0));await Wait(()=>follower.Snapshot().Activities.Length==3);Check(true,"open capture handle survives Chrome-style rename");await follower.StopAsync();Check(!follower.Snapshot().Running&&follower.Snapshot().Activities.Length==0,"stopping capture clears live activity");
+        await follower.StartAsync(renamed);writer.SetLength(24);await writer.FlushAsync();await Wait(()=>!follower.Snapshot().Running);Check(follower.Snapshot().State.Contains("truncated"),"capture truncation stops monitoring with a clear error");
+        registry.LinkCamera(camera.Id,"",null,null);Check(registry.ActivityLinks().Length==0,"activity link can be removed independently of device registration");
+    }
+    private static void Check(bool ok,string message){if(!ok)throw new Exception(message);Console.WriteLine("PASS "+message);}
+    private static async Task Wait(Func<bool> condition){using var timeout=new CancellationTokenSource(TimeSpan.FromSeconds(4));while(!condition())await Task.Delay(20,timeout.Token);}
+    internal static byte[] Header(){using var s=new MemoryStream();using(var w=new BinaryWriter(s,System.Text.Encoding.UTF8,true)){w.Write(0xa1b2c3d4u);w.Write((ushort)2);w.Write((ushort)4);w.Write(0u);w.Write(0u);w.Write(65535u);w.Write(1u);}return s.ToArray();}
+    internal static byte[] Packet(LanDevice c,LanDevice h,ushort port,byte flags,uint seq,int count,bool reverse=false,bool old=false)
+    {
+        byte[] f=new byte[54+count];Convert.FromHexString((reverse?c:h).MacAddress.Replace(":","")).CopyTo(f,0);Convert.FromHexString((reverse?h:c).MacAddress.Replace(":","")).CopyTo(f,6);BinaryPrimitives.WriteUInt16BigEndian(f.AsSpan(12),0x800);f[14]=0x45;BinaryPrimitives.WriteUInt16BigEndian(f.AsSpan(16),(ushort)(40+count));f[23]=6;IPAddress.Parse((reverse?h:c).IpAddress).GetAddressBytes().CopyTo(f,26);IPAddress.Parse((reverse?c:h).IpAddress).GetAddressBytes().CopyTo(f,30);BinaryPrimitives.WriteUInt16BigEndian(f.AsSpan(34),reverse?(ushort)443:port);BinaryPrimitives.WriteUInt16BigEndian(f.AsSpan(36),reverse?port:(ushort)443);BinaryPrimitives.WriteUInt32BigEndian(f.AsSpan(38),seq);f[46]=0x50;f[47]=flags;using var s=new MemoryStream();using(var w=new BinaryWriter(s,System.Text.Encoding.UTF8,true)){w.Write((uint)(old?DateTimeOffset.UtcNow.AddMinutes(-5):DateTimeOffset.UtcNow).ToUnixTimeSeconds());w.Write(0u);w.Write((uint)f.Length);w.Write((uint)f.Length);w.Write(f);}return s.ToArray();
+    }
+}

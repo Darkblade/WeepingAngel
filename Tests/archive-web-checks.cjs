@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const html=fs.readFileSync('Mobile/index.html','utf8');
+const helpers=html.slice(html.indexOf('const pad='),html.indexOf('function populateArchiveCameras'));
+const values={filter:{value:''},'archive-camera':{value:''},'archive-day':{value:''},'archive-from':{value:''},'archive-to':{value:''}};
+const context=vm.createContext({values});
+vm.runInContext(`const $=id=>values[id];let archived=true;let items=[{camera:'Garden',createdUtc:new Date(2026,9,28,23,59,59).toISOString()},{camera:'Drive',createdUtc:new Date(2026,9,28,1).toISOString()},{camera:'Garden',createdUtc:new Date(2026,9,29).toISOString()}];`+helpers,context);
+const run=code=>vm.runInContext(code,context);
+assert.equal(run("formatDate(new Date(2026,9,28,1,2,3))"),'2026.10.28 01:02:03');
+values['archive-from'].value='2026.10.28';values['archive-to'].value='2026.10.28';assert.equal(run('visibleItems().length'),2);
+values['archive-camera'].value='Garden';assert.equal(run('visibleItems().length'),1);
+values['archive-day'].value='2026.10.29';assert.equal(run('visibleItems().length'),0);
+assert.throws(()=>run("checkedDate('2026.02.30')"));assert.throws(()=>run("checkedDate('2026-10-28')"));
+values['archive-day'].value='';values['archive-from'].value='2026.10.29';assert.throws(()=>run('visibleItems()'));
+console.log('PASS browser dotted dates, camera/day filters, inclusive date range, and invalid dates');

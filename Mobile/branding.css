@@ -1,0 +1,2 @@
+@font-face{font-family:"Cinzel Decorative";src:url("/assets/CinzelDecorative-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+.brand{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:700!important;letter-spacing:.02em;text-transform:none}.brand:before{content:"";display:inline-block;width:28px;height:28px;background:url("/assets/angel.png") center/contain no-repeat;vertical-align:middle;margin-right:8px}.eyebrow .brand:before{display:none}.eyebrow .brand{font-size:14px}
